@@ -1,0 +1,80 @@
+body {
+    background-color: rgb(21, 16, 25);
+}
+
+hr {
+    color: purple;
+}
+
+a {
+    color: white;
+}
+
+#titulo {
+    color: white;
+
+}
+
+#logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 0;
+}
+
+#menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 100%;
+    margin-top: auto;
+    background: rgb(30, 25, 30);
+    color: white;
+    border: 1px solid white;
+    border-radius: 10px;
+}
+
+#historias {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 30%;
+    height: 30%;
+    background: rgb(30, 25, 30);
+    color: white;
+    padding: 20px;
+    border: 1px solid white;
+    border-radius: 10px;
+}
+
+#sugerencias {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 30%;
+    height: 40%;
+    background: rgb(30, 25, 30);
+    color: white;
+    padding: 20px;
+    border: 1px solid white;
+    border-radius: 10px;
+}
+
+#publicaciones {
+    top: 0;
+    bottom: 0;
+    width: 40%;
+    padding: 50px;
+    height: 100%;
+    color: white;
+    left: 30%;
+    background: rgb(30, 25, 30);
+    margin-left: 10%;
+    border: 1px solid white;
+    border-radius: 10px;
+}
+
+.subti {
+    color: rgb(237, 196, 248);
+}
