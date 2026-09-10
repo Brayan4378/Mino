@@ -10,7 +10,8 @@
 
 <body>
     <ul id="menu">
-        <li id="logo-li"><a href="Menu.html"><img id="logo" src="/Imagenes/logo_transparent.png" alt="Logo Mino">Mino</a></li>
+        <li id="logo-li"><a href="Menu.html"><img id="logo" src="/Imagenes/logo_transparent.png"
+                    alt="Logo Mino">Mino</a></li>
         <li><a href="Mensajes.html"><img src="/Imagenes/sobre.png" alt="Logo Mensajes">Mensajes</a></li>
         <li><a href="Buscar.html"><img src="/Imagenes/busqueda.png" alt="Logo Buscar">Buscar</a></li>
         <li><a href="Subir.html"><img src="/Imagenes/subir.png" alt="Logo Subir">Subir</a></li>
@@ -19,6 +20,34 @@
         </li>
     </ul>
 
+    <div id="opciones">
+        <h2 class="subti">Configuración</h2><br><br>
+        <ul class="lista-opciones">
+            <li>
+                <span>Modo oscuro</span>
+                <input type="checkbox" id="modoOscuro">
+            </li>
+            <li>
+                <span>Idioma</span>
+                <select id="idioma">
+                    <option value="es">Español</option>
+                    <option value="en">English</option>
+                    <option value="pt">Português</option>
+                </select>
+            </li>
+            <li>
+                <span>Notificaciones</span>
+                <input type="checkbox" id="notificaciones" checked>
+            </li>
+            <li>
+                <span>Cuenta privada</span>
+                <input type="checkbox" id="cuentaPrivada">
+            </li>
+            <li><a href="CambiarContrasena.html">Cambiar contraseña</a></li>
+            <li><a href="Ayuda.html">Ayuda y soporte</a></li>
+            <li><a href="#" id="cerrarSesion">Cerrar sesión</a></li>
+        </ul>
+    </div>
 
 </body>
 
