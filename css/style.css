@@ -78,3 +78,36 @@ a {
 .subti {
     color: rgb(237, 196, 248);
 }
+
+#menu li {
+    list-style: none;
+}
+
+#menu li a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+    padding: 15px;
+    padding-left: 0px;
+}
+
+
+
+#logo-li img {
+    width: 60px; 
+    height: 60px;
+}
+
+#logo-li{
+   font-size: 20px;
+    
+}
+
+#logo{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 0;
+}
