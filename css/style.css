@@ -1,82 +1,46 @@
+/* ===== Base ===== */
 body {
     background-color: rgb(21, 16, 25);
 }
 
 hr {
-    color: purple;
+    border-color: purple;
 }
 
-a {
-    color: white;
-}
-
+a,
 #titulo {
     color: white;
-
 }
 
-#logo {
+.subti {
+    color: rgb(237, 196, 248);
+    align-self: flex-start;
+}
+
+/* ===== Logo ===== */
+#logo,
+#logo-li img {
     width: 60px;
     height: 60px;
     border-radius: 50%;
     margin: 0;
 }
 
+#logo-li {
+    font-size: 20px;
+}
+
+/* ===== Menú ===== */
 #menu {
     position: fixed;
     top: 0;
     left: 0;
     width: 100px;
     height: 100%;
-    margin-top: auto;
     background: rgb(30, 25, 30);
     color: white;
     border: 1px solid white;
     border-radius: 10px;
-}
-
-#historias {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 30%;
-    height: 30%;
-    background: rgb(30, 25, 30);
-    color: white;
-    padding: 20px;
-    border: 1px solid white;
-    border-radius: 10px;
-}
-
-#sugerencias {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    width: 30%;
-    height: 40%;
-    background: rgb(30, 25, 30);
-    color: white;
-    padding: 20px;
-    border: 1px solid white;
-    border-radius: 10px;
-}
-
-#publicaciones {
-    top: 0;
-    bottom: 0;
-    width: 40%;
-    padding: 50px;
-    height: 100%;
-    color: white;
-    left: 30%;
-    background: rgb(30, 25, 30);
-    margin-left: 10%;
-    border: 1px solid white;
-    border-radius: 10px;
-}
-
-.subti {
-    color: rgb(237, 196, 248);
 }
 
 #menu li {
@@ -89,27 +53,105 @@ a {
     align-items: center;
     gap: 4px;
     text-decoration: none;
-    padding: 15px;
-    padding-left: 0px;
+    padding: 15px 15px 15px 0;
 }
 
-
-
-#logo-li img {
-    width: 60px; 
-    height: 60px;
+/* ===== Paneles laterales (historias y sugerencias) ===== */
+#historias,
+#sugerencias {
+    position: fixed;
+    right: 0;
+    width: 30%;
+    box-sizing: border-box;
+    background: rgb(30, 25, 30);
+    color: white;
+    padding: 20px;
+    border: 1px solid white;
+    border-radius: 10px;
+    gap: 12px;
 }
 
-#logo-li{
-   font-size: 20px;
-    
+#historias {
+    top: 0;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
-#logo{
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
+#sugerencias {
+    bottom: 0;
+    min-height: 35%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: start;
+}
+
+#historias .subti,
+#sugerencias .subti {
+    width: 100%;
     margin: 0;
+}
+
+#sugerencias .subti {
+    grid-column: 1 / -1;
+}
+
+.historia,
+.sugerencia {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 90px;
+    text-align: center;
+}
+
+.historia img,
+.sugerencia img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.historia p,
+.sugerencia p {
+    margin: 0;
+}
+
+/* ===== Publicaciones ===== */
+#publicaciones {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
+    height: 100%;
+    padding: 50px;
+    margin-left: 10%;
+    background: rgb(30, 25, 30);
+    color: white;
+    border: 1px solid white;
+    border-radius: 10px;
+}
+
+.publicacion {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 400px;
+}
+
+.publicacion img[alt="Publicacion quemada"] {
+    width: 100%;
+    height: auto;
+}
+
+/* ===== Opciones ===== */
+#opciones {
+    margin-left: 10%;
+    color: white;
 }
 
 #opciones .lista-opciones {
@@ -125,56 +167,18 @@ a {
     border-bottom: 1px solid #ddd;
 }
 
-#opciones{
-    margin-left: 10%;
-    color: white;
-}
-
-.registro{
-background: rgb(30, 25, 30);
- min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-.registro form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: rgb(21, 16, 25);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    color: white;
-}
-.registro input[type="text"],
-.registro input[type="email"],
-.registro input[type="password"] {
-    background-color: rgb(30, 25, 30);
-    color: white;
-    border: 1px solid purple;
-    border-radius: 5px;
-    padding: 5px;
-}
-.registro input[type="button"] {
-    background-color: rgb(41, 19, 41);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 16px;
-    cursor: pointer;
-}
-
-.login{
+/* ===== Registro y Login (mismos estilos) ===== */
+.registro,
+.login {
     background: rgb(30, 25, 30);
- min-height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
+
+.registro form,
 .login form {
     display: flex;
     flex-direction: column;
@@ -186,6 +190,10 @@ background: rgb(30, 25, 30);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     color: white;
 }
+
+.registro input[type="text"],
+.registro input[type="email"],
+.registro input[type="password"],
 .login input[type="text"],
 .login input[type="password"] {
     background-color: rgb(30, 25, 30);
@@ -194,6 +202,8 @@ background: rgb(30, 25, 30);
     border-radius: 5px;
     padding: 5px;
 }
+
+.registro input[type="button"],
 .login input[type="button"] {
     background-color: rgb(41, 19, 41);
     color: white;
