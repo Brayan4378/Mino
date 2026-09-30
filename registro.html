@@ -13,23 +13,28 @@
         <img src="/Imagenes/logo.png" alt="Logo" height="100">
     </a>
     <form>
-        <h1>Crear cuenta</h1>
-        <br><br>
-        <label>Nombre:</label>
-        <input type="text" name="username"><br><br>
-        <label>Genero:</label>
-        <input type="radio" name="genero">Masculino
-        <input type="radio" name="genero">Femenino
-        <input type="radio" name="genero">Otro<br><br>
-        <br><br>
-        <label>Correo:</label>
-        <input type="email" name="email"><br><br>
-        <label>Contraseña:</label>
-        <input type="password" name="password"><br><br>
-        <input type="checkbox" name="terminos" required> <a href="terminos.html">Acepto los términos y
-            condiciones</a><br><br>
-        <input type="button" value="Registrarse" onclick="window.location.href='Menu.html'">
-    </form>
+    <h1>Crear cuenta</h1>
+    <br><br>
+    <label>Nombre:</label>
+    <input type="text" id="username" name="username"><br><br>
+
+    <label>Genero:</label>
+    <input type="radio" id="masculino" name="genero">Masculino
+    <input type="radio" id="femenino" name="genero">Femenino
+    <input type="radio" id="otro" name="genero">Otro<br><br>
+    <br><br>
+
+    <label>Correo:</label>
+    <input type="email" id="email" name="email"><br><br>
+
+    <label>Contraseña:</label>
+    <input type="password" id="password" name="password"><br><br>
+
+    <input type="checkbox" id="terminos" name="terminos" required> <a href="terminos.html">Acepto los términos y condiciones</a><br><br>
+
+    <input type="button" value="Registrarse" onclick="validarRegistro()">
+</form>
+<script src="js/registro.js"></script>
 </body>
 
 </html>
