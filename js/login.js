@@ -6,6 +6,6 @@ function validarLogin() {
         alert("Por favor llena todos los campos");
         return;
     }
-
+alert("Bievenido a Mino, " + nombre + "!");
     window.location.href = "Menu.html";
 }

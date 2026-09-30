@@ -14,6 +14,6 @@ function validarRegistro() {
         return;
     }
 
-    alert("Usuario registrado");
+    alert("Bievenido a Mino, " + nombre + "!");
     window.location.href = "Menu.html";
 }
