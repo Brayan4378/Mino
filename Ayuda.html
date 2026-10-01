@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayuda y soporte | Mino</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/ayuda.css">
+</head>
+
+<body>
+    <ul id="menu">
+        <li id="logo-li"><a href="Menu.html"><img id="logo" src="/Imagenes/logo_transparent.png"
+                    alt="Logo Mino">Mino</a></li>
+        <li><a href="Mensajes.html"><img src="/Imagenes/sobre.png" alt="Mensajes">Mensajes</a></li>
+        <li><a href="Buscar.html"><img src="/Imagenes/busqueda.png" alt="Buscar">Buscar</a></li>
+        <li><a href="Subir.html"><img src="/Imagenes/subir.png" alt="Subir">Subir</a></li>
+        <li><a href="Perfil.html"><img src="/Imagenes/usuario.png" alt="Perfil">Perfil</a></li>
+        <li><a href="Configuracion.html"><img src="/Imagenes/controles.png" alt="Configuración">Configuración</a></li>
+    </ul>
+
+    <main class="ayuda-contenido">
+        <header class="ayuda-encabezado">
+            <p class="ayuda-etiqueta">CENTRO DE AYUDA</p>
+            <h1>¿En qué podemos ayudarte?</h1>
+            <p>Encuentra respuestas sobre tu cuenta y las funciones de Mino.</p>
+        </header>
+
+        <nav class="ayuda-temas" aria-label="Temas de ayuda">
+            <a href="#cuenta">Cuenta</a>
+            <a href="#publicaciones">Publicaciones</a>
+            <a href="#privacidad">Privacidad</a>
+        </nav>
+
+        <div class="ayuda-columnas">
+            <section class="ayuda-preguntas" aria-labelledby="titulo-preguntas">
+                <h2 id="titulo-preguntas">Preguntas frecuentes</h2>
+
+                <section class="ayuda-grupo" id="cuenta">
+                    <h3>Cuenta</h3>
+                    <details>
+                        <summary>¿Cómo cambio mi contraseña?</summary>
+                        <p>Ve a Configuración y selecciona “Cambiar contraseña” para actualizar tus datos de acceso.</p>
+                    </details>
+                    <details>
+                        <summary>¿Cómo cierro sesión?</summary>
+                        <p>Abre Configuración y pulsa “Cerrar sesión”. Volverás a la pantalla de inicio de sesión.</p>
+                    </details>
+                </section>
+
+                <section class="ayuda-grupo" id="publicaciones">
+                    <h3>Publicaciones</h3>
+                    <details>
+                        <summary>¿Cómo comparto una publicación?</summary>
+                        <p>Selecciona “Subir” en el menú, elige tu imagen y agrega el texto que quieras compartir.</p>
+                    </details>
+                    <details>
+                        <summary>¿Dónde encuentro mis publicaciones?</summary>
+                        <p>Visita tu Perfil para consultar tus publicaciones y la información de tu cuenta.</p>
+                    </details>
+                </section>
+
+                <section class="ayuda-grupo" id="privacidad">
+                    <h3>Privacidad</h3>
+                    <details>
+                        <summary>¿Puedo hacer privada mi cuenta?</summary>
+                        <p>Sí. En Configuración puedes activar la opción “Cuenta privada”.</p>
+                    </details>
+                    <details>
+                        <summary>¿Cómo administro las notificaciones?</summary>
+                        <p>Activa o desactiva las notificaciones desde Configuración cuando lo necesites.</p>
+                    </details>
+                </section>
+            </section>
+
+            <aside class="ayuda-contacto">
+                <p class="ayuda-etiqueta">¿NECESITAS MÁS AYUDA?</p>
+                <h2>Estamos para escucharte</h2>
+                <p>Si no encontraste la respuesta, escríbenos y cuéntanos qué sucede.</p>
+                <a class="ayuda-boton" href="">Contactar soporte</a>
+                <a class="ayuda-volver" href="Configuracion.html">Volver a configuración</a>
+            </aside>
+        </div>
+    </main>
+</body>
+
+</html>

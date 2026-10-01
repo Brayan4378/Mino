@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cambiar contraseña | Mino</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/cambiar-contrasena.css">
+</head>
+
+<body>
+    <ul id="menu">
+        <li id="logo-li"><a href="Menu.html"><img id="logo" src="/Imagenes/logo_transparent.png"
+                    alt="Logo Mino">Mino</a></li>
+        <li><a href="Mensajes.html"><img src="/Imagenes/sobre.png" alt="Mensajes">Mensajes</a></li>
+        <li><a href="Buscar.html"><img src="/Imagenes/busqueda.png" alt="Buscar">Buscar</a></li>
+        <li><a href="Subir.html"><img src="/Imagenes/subir.png" alt="Subir">Subir</a></li>
+        <li><a href="Perfil.html"><img src="/Imagenes/usuario.png" alt="Perfil">Perfil</a></li>
+        <li><a href="Configuracion.html"><img src="/Imagenes/controles.png" alt="Configuración">Configuración</a></li>
+    </ul>
+
+    <main class="cambiar-contrasena">
+        <a class="contrasena-volver" href="Configuracion.html">Volver a configuración</a>
+        <header class="contrasena-encabezado">
+            <p class="contrasena-etiqueta">SEGURIDAD DE LA CUENTA</p>
+            <h1>Cambiar contraseña</h1>
+            <p>Elige una contraseña nueva para proteger tu cuenta.</p>
+        </header>
+
+        <form class="form-contrasena">
+            <label for="contrasenaActual">Contraseña actual</label>
+            <input type="password" id="contrasenaActual" name="contrasenaActual" required>
+
+            <label for="contrasenaNueva">Contraseña nueva</label>
+            <input type="password" id="contrasenaNueva" name="contrasenaNueva" minlength="8" required>
+            <small>Debe tener al menos 8 caracteres.</small>
+
+            <label for="confirmarContrasena">Confirmar contraseña nueva</label>
+            <input type="password" id="confirmarContrasena" name="confirmarContrasena" minlength="8" required>
+
+            <p class="contrasena-aviso">El cambio de contraseña todavía no está conectado al sistema.</p>
+            <button type="button" disabled>Guardar contraseña</button>
+        </form>
+    </main>
+</body>
+
+</html>
