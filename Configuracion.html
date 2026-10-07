@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mino</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/tema.js"></script>
     <script src="js/Configuracion.js"></script>
 
 </head>
@@ -27,7 +28,7 @@
         <ul class="lista-opciones">
             <li>
                 <span>Modo oscuro</span>
-                <input type="checkbox" id="modoOscuro">
+                <input type="checkbox" id="modoOscuro" checked>
             </li>
             <li>
                 <span>Idioma</span>
@@ -56,6 +57,34 @@
             </li>
 
         </ul>
+    </div>
+
+    <div id="modalContrasena" class="modal">
+        <div class="contenidoModal">
+            <button class="cerrar" id="cerrarModalContrasena" type="button">&times;</button>
+            <h2>Confirmar contraseña</h2>
+            <p>Escribe una contraseña simulada para continuar.</p>
+            <form id="formularioContrasena">
+                <label for="contrasenaSimulada">Contraseña</label>
+                <input type="password" id="contrasenaSimulada" required>
+                <div class="accionesModal">
+                    <button type="submit">Aceptar</button>
+                    <button id="cancelarModalContrasena" type="button">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalCerrarSesion" class="modal">
+        <div class="contenidoModal">
+            <button class="cerrar" id="cerrarModalSesion" type="button">&times;</button>
+            <h2>Cerrar sesión</h2>
+            <p>¿Estás seguro de que quieres cerrar sesión?</p>
+            <div class="accionesModal">
+                <button id="confirmarCerrarSesion" type="button">Sí, cerrar sesión</button>
+                <button id="cancelarCerrarSesion" type="button">Cancelar</button>
+            </div>
+        </div>
     </div>
 
 </body>

@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mino</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/tema.js"></script>
 </head>
 
-<a href="Mensajes.html" id="btn-mensajes-flotante">
-    <img src="/Imagenes/sobre.png" alt="Mensajes">
-</a>
-
 <body>
+    <a href="#miniChat" id="abrirMiniChat" aria-label="Abrir miniChat">
+        <img src="/Imagenes/sobre.png" alt="Mensajes">
+    </a>
+
     <ul id="menu">
         <li id="logo-li"><a href="Menu.html"><img src="/Imagenes/logo_transparent.png" alt="Logo Mino">Mino</a></li>
         <li><a href="Mensajes.html"><img src="/Imagenes/sobre.png" alt="Logo Mensajes">Mensajes</a></li>
@@ -22,8 +23,6 @@
         <li><a href="Configuracion.html"><img src="/Imagenes/controles.png" alt="Logo Configuración">Configuración</a>
         </li>
     </ul>
-    </ul>
-
     <div id="historias">
         <h2 class="subti">Historias</h2>
         <div class="historia">
@@ -67,6 +66,69 @@
         </div>
 
     </div>
+
+    <div id="miniChat" aria-label="miniChat con Valeria Soto" hidden>
+        <header class="miniChatEncabezado">
+            <img src="/Imagenes/imagenEnsayo3.jpg" alt="">
+            <div class="miniChatContacto">
+                <strong>Valeria Soto</strong>
+                <span>Activo(a) hace 4 h</span>
+            </div>
+            <div class="miniChatAcciones" aria-label="Acciones del chat">
+                <button id="miniChatMinimizar" type="button" aria-label="Minimizar miniChat"
+                    title="Minimizar">&#8722;</button>
+                <button id="miniChatCerrar" type="button" aria-label="Cerrar miniChat" title="Cerrar">&#10005;</button>
+            </div>
+        </header>
+
+        <div class="miniChatContenido">
+            <div class="miniChatMensajes" id="miniChatMensajes">
+                <p>Hola, ¿cómo estás?</p>
+            </div>
+            <form class="miniChatCompositor">
+                <input id="miniChatEntrada" type="text" aria-label="Escribe un mensaje"
+                    placeholder="Escribe un mensaje">
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const botonAbrirMiniChat = document.getElementById("abrirMiniChat");
+        const miniChat = document.getElementById("miniChat");
+        const botonMinimizarMiniChat = document.getElementById("miniChatMinimizar");
+        const botonCerrarMiniChat = document.getElementById("miniChatCerrar");
+        const contenidoMiniChat = document.querySelector(".miniChatContenido");
+        const formularioMiniChat = document.querySelector(".miniChatCompositor");
+        const entradaMiniChat = document.getElementById("miniChatEntrada");
+        const mensajesMiniChat = document.getElementById("miniChatMensajes");
+
+        botonAbrirMiniChat.addEventListener("click", function (evento) {
+            evento.preventDefault();
+            miniChat.hidden = false;
+        });
+
+        botonMinimizarMiniChat.addEventListener("click", function () {
+            contenidoMiniChat.hidden = !contenidoMiniChat.hidden;
+        });
+
+        botonCerrarMiniChat.addEventListener("click", function () {
+            miniChat.hidden = true;
+        });
+
+        formularioMiniChat.addEventListener("submit", function (evento) {
+            evento.preventDefault();
+            const texto = entradaMiniChat.value.trim();
+
+            if (texto === "") return;
+
+            const mensaje = document.createElement("p");
+            mensaje.classList.add("mensajeUsuario");
+            mensaje.textContent = texto;
+            mensajesMiniChat.appendChild(mensaje);
+            entradaMiniChat.value = "";
+        });
+    </script>
 
 </body>
 

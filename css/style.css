@@ -90,7 +90,7 @@ a,
 }
 
 #sugerencias {
-    bottom: 40%;
+    bottom: 55%;
     min-height: 20%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -347,8 +347,8 @@ a,
     border-radius: 5px;
 }
 
-/* ===== Botón flotante de mensajes ===== */
-#btn-mensajes-flotante {
+/* minichat   */
+#abrirMiniChat {
     position: fixed;
     bottom: 30px;
     right: 30px;
@@ -363,9 +363,145 @@ a,
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
-#btn-mensajes-flotante img {
+#abrirMiniChat img {
     width: 26px;
     height: 26px;
+}
+
+#miniChat {
+    position: fixed;
+    right: 30px;
+    bottom: 100px;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    width: 320px;
+    height: 420px;
+    max-width: calc(100vw - 32px);
+    max-height: calc(100vh - 120px);
+    overflow: hidden;
+    color: white;
+    background: rgb(30, 25, 30);
+    border: 1px solid white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+#miniChat[hidden] {
+    display: none;
+}
+
+.miniChatEncabezado,
+.miniChatAcciones,
+.miniChatCompositor {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.miniChatEncabezado {
+    padding: 10px;
+    background: rgb(41, 19, 41);
+}
+
+.miniChatEncabezado>img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.miniChatContacto {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.miniChatContacto span {
+    font-size: 12px;
+}
+
+.miniChatAcciones button,
+.miniChatCompositor button {
+    padding: 6px 9px;
+    color: white;
+    background: rgb(91, 48, 99);
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.miniChatContenido {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.miniChatMensajes {
+    flex: 1;
+    padding: 12px;
+    overflow-y: auto;
+}
+
+.miniChatMensajes p {
+    width: fit-content;
+    max-width: 80%;
+    margin: 0 0 8px;
+    padding: 8px 10px;
+    background: rgb(70, 65, 70);
+    border-radius: 8px;
+}
+
+.miniChatMensajes .mensajeUsuario {
+    margin-left: auto;
+    background: rgb(91, 48, 99);
+}
+
+.miniChatCompositor {
+    padding: 8px;
+    border-top: 1px solid rgb(70, 65, 70);
+}
+
+.miniChatCompositor input {
+    flex: 1;
+    min-width: 0;
+    padding: 8px;
+    color: white;
+    background: rgb(21, 16, 25);
+    border: 1px solid purple;
+    border-radius: 4px;
+}
+
+html.temaClaro #miniChat {
+    color: #28232b;
+    background: #fff;
+    border-color: #d8d2dc;
+}
+
+html.temaClaro .miniChatEncabezado {
+    background: #eadfed;
+}
+
+html.temaClaro .miniChatAcciones button,
+html.temaClaro .miniChatCompositor button,
+html.temaClaro .miniChatMensajes .mensajeUsuario {
+    color: #28232b;
+    background: #eadfed;
+}
+
+html.temaClaro .miniChatMensajes p {
+    background: #f0edf1;
+}
+
+html.temaClaro .miniChatMensajes .mensajeUsuario {
+    background: #eadfed;
+}
+
+html.temaClaro .miniChatCompositor input {
+    color: #28232b;
+    background: #f7f5f8;
 }
 
 /* ===== Mensajes ===== */
@@ -469,10 +605,9 @@ a,
     cursor: pointer;
 }
 
-/* ===================================================
-   MÓVIL (siempre al final para que sobrescriba lo demás)
-   =================================================== */
+/* parte del movil */
 @media (min-width: 801px) and (max-width: 1100px) {
+
     #historias,
     #sugerencias {
         width: 29%;
@@ -659,9 +794,17 @@ a,
         display: none;
     }
 
-    #btn-mensajes-flotante {
+    #abrirMiniChat {
         bottom: 76px;
         right: 16px;
+    }
+
+    #miniChat {
+        right: 12px;
+        bottom: 74px;
+        width: calc(100vw - 24px);
+        height: min(540px, calc(100vh - 100px));
+        min-height: 280px;
     }
 
     .registro,
@@ -814,8 +957,8 @@ body {
     line-height: 1.12;
 }
 
-.ayuda-encabezado > p:last-child,
-.ayuda-contacto > p:not(.ayuda-etiqueta) {
+.ayuda-encabezado>p:last-child,
+.ayuda-contacto>p:not(.ayuda-etiqueta) {
     color: rgb(195, 185, 200);
     line-height: 1.65;
 }
@@ -848,7 +991,7 @@ body {
     gap: 48px;
 }
 
-.ayuda-preguntas > h2,
+.ayuda-preguntas>h2,
 .ayuda-contacto h2 {
     margin: 0 0 22px;
     color: rgb(237, 196, 248);
@@ -905,7 +1048,7 @@ body {
     font-size: 21px;
 }
 
-.ayuda-contacto > p:not(.ayuda-etiqueta) {
+.ayuda-contacto>p:not(.ayuda-etiqueta) {
     margin: 0 0 22px;
     font-size: 14px;
 }
@@ -957,6 +1100,7 @@ body {
         max-width: none;
     }
 }
+
 .terminos {
     width: 80%;
     margin-left: 100px;
@@ -1011,4 +1155,142 @@ body {
         margin-left: 0;
         padding: 24px 16px 90px;
     }
+}
+
+/* tema claro en las tales */
+
+html.temaClaro {
+    color-scheme: light;
+}
+
+html.temaClaro body {
+    background: #f4f2f5;
+    color: #28232b;
+}
+
+html.temaClaro body * {
+    color: #28232b !important;
+}
+
+html.temaClaro .subti,
+html.temaClaro .terminos h1 {
+    color: #70487a !important;
+}
+
+html.temaClaro #opciones .lista-opciones button:hover {
+    color: #70487a !important;
+}
+
+html.temaClaro #menu,
+html.temaClaro #historias,
+html.temaClaro #sugerencias,
+html.temaClaro #publicaciones,
+html.temaClaro .registro,
+html.temaClaro .login,
+html.temaClaro .registro form,
+html.temaClaro .login form,
+html.temaClaro .form-contrasena,
+html.temaClaro .ayuda-contacto {
+    background: #fff;
+    border-color: #d8d2dc;
+}
+
+html.temaClaro .registro input[type="text"],
+html.temaClaro .registro input[type="email"],
+html.temaClaro .registro input[type="password"],
+html.temaClaro .login input[type="text"],
+html.temaClaro .login input[type="password"],
+html.temaClaro .form-contrasena input {
+    background: #f7f5f8;
+    border-color: #8b5b96;
+}
+
+html.temaClaro .registro input[type="button"],
+html.temaClaro .login input[type="button"],
+html.temaClaro #mensajes-vacio button,
+html.temaClaro .form-contrasena button,
+html.temaClaro .ayuda-boton,
+html.temaClaro .terminos-volver,
+html.temaClaro #abrirMiniChat {
+    background: #eadfed;
+    border-color: #b99abd;
+}
+
+html.temaClaro .form-contrasena button:disabled {
+    background: #e5e2e7;
+}
+
+html.temaClaro .ayuda-boton:hover,
+html.temaClaro .ayuda-boton:focus-visible {
+    background: #ded0e2;
+}
+
+html.temaClaro .ayuda-grupo details,
+html.temaClaro .ayuda-grupo details:last-child {
+    border-color: #ded9e1;
+}
+
+html.temaClaro .terminos section {
+    border-color: #ded9e1;
+}
+
+/* a partir de aca es lo de la ventana modal, funciona no lo toque
+ me toco corregir redundancias con IA del css porque estaba larguisimo */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.contenidoModal {
+    position: relative;
+    width: min(100%, 420px);
+    padding: 24px;
+    box-sizing: border-box;
+    background: rgb(30, 25, 30);
+    border: 1px solid white;
+    border-radius: 8px;
+    color: white;
+}
+
+.contenidoModal h2 {
+    margin-top: 0;
+}
+
+.contenidoModal label,
+.contenidoModal input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.contenidoModal input {
+    margin-top: 6px;
+    padding: 9px;
+}
+
+.cerrar {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    border: none;
+    background: none;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.accionesModal {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 18px;
 }
