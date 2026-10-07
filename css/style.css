@@ -90,8 +90,8 @@ a,
 }
 
 #sugerencias {
-    bottom: 0;
-    min-height: 35%;
+    bottom: 40%;
+    min-height: 20%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     align-items: start;
