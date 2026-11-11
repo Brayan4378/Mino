@@ -1,23 +1,39 @@
-// Esta parte es de cerrar sesion la parte de abajo en configuracion
+function abrirVentana(ventanaId) {
+    const ventana = document.getElementById(ventanaId);
+    ventana.style.display = "flex";
+}
+
+function cerrarVentana(ventanaId) {
+    const ventana = document.getElementById(ventanaId);
+    ventana.style.display = "none";
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-    const cerrarSesionBtn = document.getElementById("cerrarSesion");
-    cerrarSesionBtn.addEventListener("click", () => {
+    const botonCerrarSesion = document.getElementById("cerrarSesion");
+    const botonCambiarContrasena = document.getElementById("cambiarContra");
+
+    botonCerrarSesion.addEventListener("click", () => {
+        abrirVentana("modalCerrarSesion");
+    });
+
+    document.getElementById("confirmarCerrarSesion").addEventListener("click", () => {
+        window.MinoApi.cerrarSesion();
         window.location.href = "Login.html";
     });
-});
 
-// Esta parte es de soporte, lleva a Ayuda.html
-document.addEventListener("DOMContentLoaded", () => {
-    const ayudabtn = document.getElementById("ayuda");
-    ayudabtn.addEventListener("click", () => {
-        window.location.href = "Ayuda.html";
+    document.getElementById("cancelarCerrarSesion").addEventListener("click", () => {
+        cerrarVentana("modalCerrarSesion");
     });
-});
 
-// Esta parte es de Cambiar la contraseña lleva a CambiarContrana.html
-document.addEventListener("DOMContentLoaded", () => {
-    const cambiarContrabtn = document.getElementById("cambiarContra");
-    cambiarContrabtn.addEventListener("click", () => {
+    document.getElementById("cerrarModalSesion").addEventListener("click", () => {
+        cerrarVentana("modalCerrarSesion");
+    });
+
+    botonCambiarContrasena.addEventListener("click", () => {
         window.location.href = "CambiarContrasena.html";
+    });
+
+    document.getElementById("ayuda").addEventListener("click", () => {
+        window.location.href = "Ayuda.html";
     });
 });

@@ -4,37 +4,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mino</title>
+    <title>Crear cuenta | Mino</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/tema.js"></script>
 </head>
 
-<body class = "registro">
-    <a href="Menu.html">
-        <img src="/Imagenes/logo.png" alt="Logo" height="100">
-    </a>
-    <form>
-    <h1>Crear cuenta</h1>
-    <br><br>
-    <label>Nombre:</label>
-    <input type="text" id="username" name="username"><br><br>
+<body class="registro">
+    <main class="registro-contenedor">
+        <a class="registro-marca" href="Menu.html" aria-label="Mino, ir al inicio">
+            <img src="Imagenes/logo.png" alt="">
+            <span>Mino</span>
+        </a>
 
-    <label>Genero:</label>
-    <input type="radio" id="masculino" name="genero">Masculino
-    <input type="radio" id="femenino" name="genero">Femenino
-    <input type="radio" id="otro" name="genero">Otro<br><br>
-    <br><br>
+        <form id="formularioRegistro" class="registro-formulario">
+            <header class="registro-encabezado">
+                <p class="registro-etiqueta">ÚNETE A MINO</p>
+                <h1>Crear cuenta</h1>
+                <p>Conecta y comparte con tu comunidad.</p>
+            </header>
 
-    <label>Correo:</label>
-    <input type="email" id="email" name="email"><br><br>
+            <div class="registro-campo">
+                <label for="username">Nombre</label>
+                <input type="text" id="username" name="username" maxlength="80"
+                    autocomplete="name" placeholder="Tu nombre" required>
+            </div>
 
-    <label>Contraseña:</label>
-    <input type="password" id="password" name="password"><br><br>
+            <div class="registro-campo">
+                <label for="genero">Género <span>(opcional)</span></label>
+                <select id="genero" name="genero">
+                    <option value="" selected>Prefiero no indicarlo</option>
+                    <option value="Femenino">Femenino</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Otro">Otro</option>
+                </select>
+            </div>
 
-    <input type="checkbox" id="terminos" name="terminos" required> <a href="terminos.html">Acepto los términos y condiciones</a><br><br>
+            <div class="registro-campo">
+                <label for="email">Correo electrónico</label>
+                <input type="email" id="email" name="email" maxlength="254"
+                    autocomplete="email" placeholder="tu@correo.com" required>
+            </div>
 
-    <input type="button" value="Registrarse" onclick="validarRegistro()">
-</form>
-<script src="js/registro.js"></script>
+            <div class="registro-campo">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" minlength="8"
+                    maxlength="72" autocomplete="new-password" placeholder="Mínimo 8 caracteres" required>
+            </div>
+
+            <label class="registro-terminos" for="terminos">
+                <input type="checkbox" id="terminos" name="terminos" required>
+                <span>Acepto los <a href="terminos.html">términos y condiciones</a></span>
+            </label>
+
+            <p id="estadoRegistro" role="status" aria-live="polite"></p>
+            <button class="registro-boton" type="submit">Crear cuenta</button>
+            <p class="registro-iniciar">¿Ya tienes una cuenta? <a href="Login.html">Inicia sesión</a></p>
+        </form>
+    </main>
+    <script src="js/api.js"></script>
+    <script src="js/registro.js"></script>
 </body>
 
 </html>

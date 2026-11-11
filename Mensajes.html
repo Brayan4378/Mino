@@ -1,71 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mino</title>
+    <title>Mensajes | Mino</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/tema.js"></script>
 </head>
 
 <body>
     <ul id="menu">
-        <li id="logo-li"><a href="Menu.html"><img src="/Imagenes/logo_transparent.png" alt="Logo Mino">Mino</a></li>
-        <li><a href="Mensajes.html"><img src="/Imagenes/sobre.png" alt="Logo Mensajes">Mensajes</a></li>
-        <li><a href="Buscar.html"><img src="/Imagenes/busqueda.png" alt="Logo Buscar">Buscar</a></li>
-        <li><a href="Subir.html"><img src="/Imagenes/subir.png" alt="Logo Subir">Subir</a></li>
-        <li><a href="Perfil.html"><img src="/Imagenes/usuario.png" alt="Logo Perfil">Perfil</a></li>
-        <li><a href="Configuracion.html"><img src="/Imagenes/controles.png" alt="Logo Configuración">Configuración</a>
-        </li>
+        <li id="logo-li"><a href="Menu.html"><img src="Imagenes/logo_transparent.png" alt="Logo Mino">Mino</a></li>
+        <li><a href="Mensajes.html" aria-current="page"><img src="Imagenes/sobre.png" alt="Mensajes">Mensajes</a></li>
+        <li><a href="Buscar.html"><img src="Imagenes/busqueda.png" alt="Buscar">Buscar</a></li>
+        <li><a href="Subir.html"><img src="Imagenes/subir.png" alt="Subir">Subir</a></li>
+        <li><a href="Perfil.html"><img src="Imagenes/usuario.png" alt="Perfil">Perfil</a></li>
+        <li><a href="Configuracion.html"><img src="Imagenes/controles.png" alt="Configuración">Configuración</a></li>
     </ul>
 
-    <div id="mensajes-container">
-        <div id="mensajes-lista">
-            <h2 class="subti">o_wen02</h2>
-
-            <div class="chat">
-                <img src="/Imagenes/imagenEnsayo1.jpg" alt="Usuario 1">
-                <div class="chat-info">
-                    <p class="chat-nombre">Valentina Rojas</p>
-                    <p class="chat-preview">Tú: Ey y como estas? · 52 min</p>
+    <main id="mensajes-container">
+        <aside id="mensajes-lista" aria-label="Conversaciones">
+            <header class="mensajes-lista-encabezado">
+                <div>
+                    <p class="mensajes-etiqueta">TU ESPACIO PRIVADO</p>
+                    <h1>Mensajes</h1>
                 </div>
-            </div>
+                <a class="mensajes-nuevo" href="#formularioBuscarContacto"
+                    aria-label="Iniciar una conversación">+</a>
+            </header>
 
-            <div class="chat">
-                <img src="/Imagenes/imagenEnsayo2.jpg" alt="Usuario 2">
-                <div class="chat-info">
-                    <p class="chat-nombre">mar</p>
-                    <p class="chat-preview">Tú: Tu tia como va a salir con eso · 2 h</p>
+            <form id="formularioBuscarContacto" class="mensajes-buscar" role="search">
+                <label for="buscarContacto">Iniciar conversación</label>
+                <div class="mensajes-buscar-campo">
+                    <input id="buscarContacto" type="search" maxlength="80"
+                        placeholder="Buscar personas..." autocomplete="off">
+                    <button type="submit">Buscar</button>
                 </div>
-            </div>
+            </form>
+            <p id="estadoBuscarContacto" class="mensajes-estado" role="status" aria-live="polite"></p>
+            <div id="resultadosContactos" class="mensajes-resultados"></div>
 
-            <div class="chat">
-                <img src="/Imagenes/imagenEnsayo3.jpg" alt="Usuario 3">
-                <div class="chat-info">
-                    <p class="chat-nombre">martinell.ii</p>
-                    <p class="chat-preview">martinell.ii envió un sticker · 20 h</p>
-                </div>
-            </div>
+            <h2 class="mensajes-subtitulo">Conversaciones</h2>
+            <p id="estadoConversaciones" class="mensajes-estado" role="status" aria-live="polite"></p>
+            <div id="listaConversaciones" class="mensajes-conversaciones"></div>
+        </aside>
 
-            <div class="chat">
-                <img src="/Imagenes/tranquilito.jpg" alt="Usuario 4">
-                <div class="chat-info">
-                    <p class="chat-nombre">Juan José Aguirre</p>
-                    <p class="chat-preview">Le gustó un mensaje · 22 h</p>
-                </div>
-            </div>
-        </div>
-
-        <div id="mensajes-chat">
+        <section id="mensajes-chat" aria-label="Chat">
             <div id="mensajes-vacio">
                 <div id="mensajes-icono-circulo">
-                    <img src="/Imagenes/sobre.png" alt="Mensajes">
+                    <img src="Imagenes/sobre.png" alt="">
                 </div>
-                <h3>Tus mensajes</h3>
-                <p>Envía fotos y mensajes privados a un amigo o un grupo.</p>
-                <button>Enviar mensaje</button>
+                <h2>Tu bandeja de mensajes</h2>
+                <p>Busca a alguien para iniciar una conversación privada.</p>
+                <button id="botonBuscarContacto" type="button">Buscar personas</button>
             </div>
-        </div>
-    </div>
+
+            <section id="conversacionActiva" class="conversacion-activa" hidden>
+                <header class="conversacion-encabezado">
+                    <button id="volverConversaciones" class="conversacion-volver" type="button"
+                        aria-label="Volver a conversaciones">‹</button>
+                    <span id="avatarConversacion" class="conversacion-avatar" aria-hidden="true"></span>
+                    <div class="conversacion-contacto">
+                        <h2 id="nombreConversacion"></h2>
+                        <span>Conversación privada</span>
+                    </div>
+                    <a id="verPerfilConversacion" class="conversacion-ver-perfil" href="#">Ver perfil</a>
+                </header>
+
+                <div class="conversacion-cuerpo">
+                    <button id="cargarMensajesAnteriores" class="mensajes-anteriores" type="button" hidden>
+                        Cargar mensajes anteriores
+                    </button>
+                    <p id="estadoMensajes" class="mensajes-estado" role="status" aria-live="polite"></p>
+                    <div id="listaMensajes" class="lista-mensajes" aria-live="polite"></div>
+                </div>
+
+                <form id="formularioEnviarMensaje" class="compositor-mensaje">
+                    <label class="solo-lectores" for="entradaMensaje">Escribe un mensaje</label>
+                    <textarea id="entradaMensaje" name="contenido" rows="1" maxlength="2000"
+                        placeholder="Escribe un mensaje..." required></textarea>
+                    <button type="submit" aria-label="Enviar mensaje">Enviar</button>
+                </form>
+                <p id="estadoEnviarMensaje" class="mensajes-estado" role="status" aria-live="polite"></p>
+            </section>
+        </section>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/mensajes.js"></script>
 </body>
+
 </html>

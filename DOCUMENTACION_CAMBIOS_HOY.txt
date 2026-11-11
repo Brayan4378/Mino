@@ -1,0 +1,162 @@
+DOCUMENTACION DE CAMBIOS - MINO
+Fecha: 11 de noviembre de 2026
+
+RESUMEN
+-------
+Hoy se conectaron varias funciones de Mino con la API Express y la base de
+datos SQLite. Se añadieron y actualizaron pantallas para registro, inicio de
+sesion, perfil, busqueda de usuarios y mensajes privados.
+
+1. REGISTRO E INICIO DE SESION
+------------------------------
+- El registro guarda nombre, correo, contraseña cifrada y genero en SQLite.
+- El genero se elige con un selector desplegable; es opcional.
+- Se valida el correo y se requiere una contraseña de al menos 8 caracteres.
+- Al registrarse, se inicia sesion y se guarda el token de autenticacion.
+- El inicio de sesion valida las credenciales mediante la API.
+- Se rediseñaron Registro y Login para compartir una apariencia adaptable,
+  con campos alineados, paleta violeta, mensajes de estado y enlaces entre
+  ambas pantallas.
+
+Archivos principales:
+  registro.html
+  Login.html
+  js/registro.js
+  js/login.js
+  js/api.js
+
+2. PERFIL Y BUSQUEDA DE USUARIOS
+--------------------------------
+- El perfil carga los datos de la cuenta desde SQLite.
+- El propietario puede editar nombre, correo, genero y biografia.
+- Se puede cambiar la contraseña verificando primero la contraseña actual.
+- El perfil publico muestra datos y contadores de publicaciones y seguidores.
+- La busqueda encuentra usuarios y permite abrir sus perfiles o iniciarles
+  una conversacion.
+- Se elimino "carrera" del registro, el perfil, la busqueda y la API.
+- La base de datos elimina la columna antigua de carrera al iniciar la API,
+  conservando el resto de los datos de las cuentas.
+
+Archivos principales:
+  Perfil.html
+  Buscar.html
+  CambiarContrasena.html
+  js/perfil.js
+  js/buscar.js
+  js/cambiar-contrasena.js
+  api/database.js
+  api/server.js
+
+3. MENSAJES PRIVADOS
+--------------------
+- Se reemplazo la lista de conversaciones de muestra por una bandeja funcional.
+- Se puede buscar a otra persona e iniciar o reutilizar una conversacion.
+- Los mensajes se guardan en SQLite y el historial se carga al abrir el chat.
+- Las conversaciones solo son accesibles a sus participantes.
+- Se muestran previsualizaciones, mensajes sin leer y estados de lectura.
+- El historial pagina mensajes antiguos y se actualiza periodicamente.
+- El perfil de otra persona y los resultados de busqueda tienen acceso para
+  abrir una conversacion.
+- La interfaz se adapta a pantallas moviles.
+- El boton de mensajes de Menu.html ahora abre la bandeja real, no el chat
+  de demostracion.
+
+Archivos principales:
+  Mensajes.html
+  js/mensajes.js
+  api/server.js
+  api/database.js
+  css/style.css
+
+4. HISTORIAS
+------------
+- Se integro Zuck.js en Menu.html desde un CDN.
+- La version inicial mostraba tres historias de ejemplo basadas en imagenes
+  existentes en Imagenes/.
+- Se añadieron textos en español y estilos de Zuck.js.
+
+Actualizacion:
+- Las historias ahora se consultan desde la API y se agrupan por usuario.
+- Desde Subir.html se puede publicar una historia con imagen y texto opcional.
+- Se guardan en SQLite y los archivos se almacenan en api/uploads/.
+- Expiran despues de 24 horas y dejan de aparecer en la lista.
+- Si no hay historias, se muestra el espacio de una historia con el logo y
+  nombre de Mino, sin mostrar historias de ejemplo.
+- Si la API falla, se registra el error y se conserva el espacio de Mino.
+
+Como funciona:
+- historias.js envia el formulario como FormData a POST /api/historias.
+- La API requiere una sesion, valida la imagen y guarda el archivo y sus datos.
+- Menu.html carga las historias con GET /api/historias y se las entrega a
+  Zuck.js para mostrar el visor.
+
+Archivos principales:
+  Menu.html
+  Subir.html
+  js/historias.js
+  api/server.js
+  api/database.js
+  css/style.css
+
+5. FOTO DE PERFIL
+-----------------
+- Inicialmente la funcionalidad de foto de perfil estaba comenzada, pero no
+  estaba terminada ni disponible para los usuarios.
+- Ya se habia agregado Multer como dependencia y se preparo la columna
+  foto_perfil en SQLite y el directorio de almacenamiento del servidor.
+
+Actualizacion:
+- El propietario puede cambiar su foto desde Perfil.html.
+- Se aceptan imagenes PNG, JPG y WEBP de hasta 3 MB.
+- La API requiere una sesion, valida el formato y guarda el archivo en
+  api/uploads/. Al cambiarla, elimina el archivo anterior.
+- La foto se guarda en la columna foto_perfil y se muestra en el perfil propio
+  y en perfiles publicos.
+- js/api.js envia FormData sin definir manualmente Content-Type, para que el
+  navegador agregue el limite multipart correcto.
+
+Como funciona:
+- perfil.js envia la imagen a POST /api/usuarios/me/foto.
+- La API valida y guarda el archivo, actualiza SQLite y devuelve su URL.
+- El perfil actualiza la imagen en pantalla y los datos guardados de la sesion.
+
+Archivos principales:
+  Perfil.html
+  js/perfil.js
+  js/api.js
+  api/server.js
+  api/database.js
+  css/style.css
+
+6. SEGUIMIENTO DE PERSONAS
+--------------------------
+- SQLite ya tiene la tabla seguidores y los perfiles muestran los contadores
+  de seguidores y seguidos.
+- La busqueda permite encontrar usuarios y abrir sus perfiles.
+- Todavia no se implementaron las acciones para seguir o dejar de seguir.
+
+COMO EJECUTAR
+-------------
+1. Abrir una terminal en la carpeta api.
+2. Ejecutar:
+     npm start
+3. Servir las paginas del proyecto con Live Server u otro servidor local.
+4. Registrar dos cuentas e iniciar sesion para probar conversaciones.
+
+Para abrir la base con DB Browser for SQLite, seleccionar:
+  api/usuarios.db
+Luego abrir la pestaña "Browse Data" y elegir una tabla, por ejemplo
+"usuarios", "conversaciones" o "mensajes". La contraseña guardada es un hash,
+no la contraseña legible.
+
+VALIDACIONES REALIZADAS
+-----------------------
+- Se comprobaron sintaxis de JavaScript y formato de los cambios.
+- Las pruebas de API cubrieron migracion de carrera, registro, inicio de
+  sesion, edicion de perfil, cambio de contraseña y busqueda.
+- Las pruebas de mensajes cubrieron acceso privado, reutilizacion de
+  conversaciones, envio, historial, paginacion y mensajes sin leer.
+- Se revisaron las interfaces de registro, inicio de sesion y mensajes en
+  navegador; la vista movil de mensajes no presenta desbordamiento horizontal.
+- En una prueba con una base temporal se verificaron el cambio de foto, su
+  asociacion al perfil y la publicacion y consulta de historias.

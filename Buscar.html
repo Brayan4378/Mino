@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mino</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/tema.js"></script>
 </head>
 
 <body>
@@ -18,6 +19,21 @@
         <li><a href="Configuracion.html"><img src="/Imagenes/controles.png" alt="Logo Configuración">Configuración</a>
         </li>
     </ul>
+    <main class="buscar-pagina">
+        <h1>Buscar usuarios</h1>
+        <form id="formularioBusqueda">
+            <label for="consultaUsuarios">Nombre del usuario</label>
+            <div class="buscar-campo">
+                <input id="consultaUsuarios" name="q" type="search" maxlength="80"
+                    placeholder="Escribe un nombre" autocomplete="off">
+                <button type="submit">Buscar</button>
+            </div>
+        </form>
+        <p id="estadoBusqueda" role="status" aria-live="polite">Escribe un nombre para buscar personas.</p>
+        <div id="resultadosUsuarios" aria-live="polite"></div>
+    </main>
+    <script src="js/api.js"></script>
+    <script src="js/buscar.js"></script>
 </body>
 
 </html>

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cambiar contraseña | Mino</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" type="text/css" href="css/cambiar-contrasena.css">
+    <script src="js/tema.js"></script>
 </head>
 
 <body>
@@ -21,28 +21,33 @@
     </ul>
 
     <main class="cambiar-contrasena">
-        <a class="contrasena-volver" href="Configuracion.html">Volver a configuración</a>
+        <a class="contrasena-volver" href="Perfil.html">Volver al perfil</a>
         <header class="contrasena-encabezado">
             <p class="contrasena-etiqueta">SEGURIDAD DE LA CUENTA</p>
             <h1>Cambiar contraseña</h1>
             <p>Elige una contraseña nueva para proteger tu cuenta.</p>
         </header>
 
-        <form class="form-contrasena">
+        <form class="form-contrasena" id="formularioCambiarContrasena">
             <label for="contrasenaActual">Contraseña actual</label>
-            <input type="password" id="contrasenaActual" name="contrasenaActual" required>
+            <input type="password" id="contrasenaActual" name="contrasenaActual"
+                autocomplete="current-password" required>
 
             <label for="contrasenaNueva">Contraseña nueva</label>
-            <input type="password" id="contrasenaNueva" name="contrasenaNueva" minlength="8" required>
+            <input type="password" id="contrasenaNueva" name="contrasenaNueva"
+                minlength="8" maxlength="72" autocomplete="new-password" required>
             <small>Debe tener al menos 8 caracteres.</small>
 
             <label for="confirmarContrasena">Confirmar contraseña nueva</label>
-            <input type="password" id="confirmarContrasena" name="confirmarContrasena" minlength="8" required>
+            <input type="password" id="confirmarContrasena" name="confirmarContrasena"
+                minlength="8" maxlength="72" autocomplete="new-password" required>
 
-            <p class="contrasena-aviso">El cambio de contraseña todavía no está conectado al sistema.</p>
-            <button type="button" disabled>Guardar contraseña</button>
+            <p class="contrasena-aviso" id="estadoCambioContrasena" role="status" aria-live="polite"></p>
+            <button type="submit">Guardar contraseña</button>
         </form>
     </main>
+    <script src="js/api.js"></script>
+    <script src="js/cambiar-contrasena.js"></script>
 </body>
 
 </html>

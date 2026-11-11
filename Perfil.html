@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mino</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/tema.js"></script>
 </head>
 
-<a href="Mensajes.html" id="btn-mensajes-flotante">
-    <img src="/Imagenes/sobre.png" alt="Mensajes">
-</a>
-
 <body>
+    <a href="Mensajes.html" id="btn-mensajes-flotante">
+        <img src="/Imagenes/sobre.png" alt="Mensajes">
+    </a>
+
     <ul id="menu">
         <li id="logo-li"><a href="Menu.html"><img src="/Imagenes/logo_transparent.png" alt="Logo Mino">Mino</a></li>
         <li><a href="Mensajes.html"><img src="/Imagenes/sobre.png" alt="Logo Mensajes">Mensajes</a></li>
@@ -23,57 +24,89 @@
         </li>
     </ul>
 
-    <div id="perfil-header">
-    <img id="perfil-foto" src="/Imagenes/imagenEnsayo1.jpg" alt="Foto de perfil">
+    <main class="perfil-pagina">
+        <p id="estadoPerfil" role="status" aria-live="polite">Cargando perfil...</p>
+        <div id="perfil-header">
+            <div class="perfil-foto-contenedor">
+                <img id="perfil-foto" src="/Imagenes/usuario.png" alt="Foto de perfil">
+                <form id="formularioFotoPerfil" class="formulario-foto-perfil" hidden>
+                    <label for="archivoFotoPerfil">Cambiar foto</label>
+                    <input id="archivoFotoPerfil" name="foto" type="file" accept="image/png,image/jpeg,image/webp" required>
+                    <button type="submit">Cambiar foto</button>
+                    <p id="estadoFotoPerfil" role="status" aria-live="polite"></p>
+                </form>
+            </div>
 
-    <div id="perfil-info">
-        <h2 id="perfil-usuario">o_wen02</h2>
+            <div id="perfil-info">
+                <h1 id="perfil-usuario"></h1>
+                <ul id="perfil-stats">
+                    <li><strong id="perfil-num-publicaciones">0</strong> publicaciones</li>
+                    <li><strong id="perfil-num-seguidores">0</strong> seguidores</li>
+                    <li><strong id="perfil-num-seguidos">0</strong> seguidos</li>
+                </ul>
+                <p id="perfil-genero"></p>
+                <p id="perfil-bio"></p>
 
-        <ul id="perfil-stats">
-            <li><strong>6</strong> publicaciones</li>
-            <li><strong>176</strong> seguidores</li>
-            <li><strong>196</strong> seguidos</li>
-        </ul>
-
-        <p id="perfil-bio">memento mori.</p>
-
-        <div id="perfil-botones">
-            <button>Editar perfil</button>
-            <button>Ver archivo</button>
+                <div id="perfil-botones" hidden>
+                    <button id="botonEditarPerfil" type="button" hidden>Editar perfil</button>
+                    <button id="botonCambiarContrasena" type="button" hidden>Cambiar contraseña</button>
+                    <a id="botonEnviarMensaje" class="perfil-enviar-mensaje" href="Mensajes.html" hidden>
+                        Enviar mensaje
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-<div id="perfil-destacados">
-    <div class="destacado">
-        <img src="/Imagenes/imagenEnsayo1.jpg" alt="Destacado 1">
-        <p>Viajes</p>
-    </div>
-    <div class="destacado">
-        <img src="/Imagenes/imagenEnsayo2.jpg" alt="Destacado 2">
-        <p>Amigos</p>
-    </div>
-    <div class="destacado">
-        <img src="/Imagenes/imagenEnsayo3.jpg" alt="Destacado 3">
-        <p>Fotos</p>
-    </div>
-</div>
 
-<hr id="perfil-separador">
+        <section class="perfil-formulario" id="seccionEditarPerfil" hidden>
+            <h2>Editar perfil</h2>
+            <form id="formularioPerfil">
+                <label for="nombrePerfil">Nombre</label>
+                <input id="nombrePerfil" name="nombre" type="text" maxlength="80" required>
 
-<div id="perfil-publicaciones">
-    <div class="post">
-        <img src="/Imagenes/imagenEnsayo1.jpg" alt="Publicación 1">
-    </div>
-    <div class="post">
-        <img src="/Imagenes/imagenEnsayo2.jpg" alt="Publicación 2">
-    </div>
-    <div class="post">
-        <img src="/Imagenes/imagenEnsayo3.jpg" alt="Publicación 3">
-    </div>
-    <div class="post">
-        <img src="/Imagenes/tranquilito.jpg" alt="Publicación 4">
-    </div>
-</div>
+                <label for="correoPerfil">Correo</label>
+                <input id="correoPerfil" name="correo" type="email" maxlength="254" required>
+
+                <label for="generoPerfil">Género</label>
+                <select id="generoPerfil" name="genero">
+                    <option value="">Prefiero no indicarlo</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Femenino">Femenino</option>
+                    <option value="Otro">Otro</option>
+                </select>
+
+                <label for="bioPerfil">Biografía</label>
+                <textarea id="bioPerfil" name="bio" rows="4" maxlength="250"></textarea>
+
+                <div class="perfil-acciones">
+                    <button type="submit">Guardar cambios</button>
+                    <button id="cancelarEdicionPerfil" type="button">Cancelar</button>
+                </div>
+            </form>
+            <p id="estadoEdicionPerfil" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="perfil-formulario" id="seccionCambiarContrasena" hidden>
+            <h2>Cambiar contraseña</h2>
+            <form id="formularioCambiarContrasena">
+                <label for="contrasenaActualPerfil">Contraseña actual</label>
+                <input id="contrasenaActualPerfil" type="password" autocomplete="current-password" required>
+
+                <label for="contrasenaNuevaPerfil">Contraseña nueva</label>
+                <input id="contrasenaNuevaPerfil" type="password" minlength="8" maxlength="72" autocomplete="new-password" required>
+
+                <label for="confirmarContrasenaPerfil">Confirmar contraseña nueva</label>
+                <input id="confirmarContrasenaPerfil" type="password" minlength="8" maxlength="72" autocomplete="new-password" required>
+
+                <div class="perfil-acciones">
+                    <button type="submit">Actualizar contraseña</button>
+                    <button id="cancelarCambioContrasena" type="button">Cancelar</button>
+                </div>
+            </form>
+            <p id="estadoContrasenaPerfil" role="status" aria-live="polite"></p>
+        </section>
+    </main>
+    <script src="js/api.js"></script>
+    <script src="js/perfil.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,21 @@
+# Dependencias
+node_modules/
+
+# Secretos
+.env
+.env.*
+!.env.example
+
+# Base de datos
+*.db
+*.sqlite
+*.sqlite3
+
+# Archivos subidos por usuarios
+uploads/
+
+# Sistema y editor
+.DS_Store
+Thumbs.db
+.vscode/
+*.log

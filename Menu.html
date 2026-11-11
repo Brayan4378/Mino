@@ -1,18 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mino</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/zuck.js@2.1.1/dist/zuck.css">
+    <link rel="stylesheet" href="https://unpkg.com/zuck.js@2.1.1/dist/skins/snapgram.css">
+    <script src="js/tema.js"></script>
 </head>
 
-<a href="Mensajes.html" id="btn-mensajes-flotante">
-    <img src="/Imagenes/sobre.png" alt="Mensajes">
-</a>
-
 <body>
+    <a href="Mensajes.html" id="abrirMiniChat" aria-label="Abrir mensajes">
+        <img src="/Imagenes/sobre.png" alt="Mensajes">
+    </a>
+
     <ul id="menu">
         <li id="logo-li"><a href="Menu.html"><img src="/Imagenes/logo_transparent.png" alt="Logo Mino">Mino</a></li>
         <li><a href="Mensajes.html"><img src="/Imagenes/sobre.png" alt="Logo Mensajes">Mensajes</a></li>
@@ -22,23 +25,10 @@
         <li><a href="Configuracion.html"><img src="/Imagenes/controles.png" alt="Logo Configuración">Configuración</a>
         </li>
     </ul>
-    </ul>
-
-    <div id="historias">
-        <h2 class="subti">Historias</h2>
-        <div class="historia">
-            <img src="/Imagenes/imagenEnsayo1.jpg" alt="Ensayo 1">
-            <p>Usuario 1</p>
-        </div>
-        <div class="historia">
-            <img src="/Imagenes/imagenEnsayo2.jpg" alt="Ensayo 2">
-            <p>Usuario 2</p>
-        </div>
-        <div class="historia">
-            <img src="/Imagenes/imagenEnsayo3.jpg" alt="Ensayo 3">
-            <p>Usuario 3</p>
-        </div>
-    </div>
+    <section id="historias" aria-labelledby="tituloHistorias">
+        <h2 class="subti" id="tituloHistorias">Historias</h2>
+        <div id="stories"></div>
+    </section>
 
     <div id="sugerencias">
         <h2 class="subti">Sugerencias</h2>
@@ -56,17 +46,17 @@
         </div>
     </div>
 
-    <div id="publicaciones">
-        <h2 class="subti">Publicaciones</h2>
-        <div class="publicacion">
-            <img src="/Imagenes/imagenEnsayo1.jpg" alt="Ensayo 1" height="20" style="border-radius: 100%;">
-            <h2>Usuario 1</h2>
-            <img src="/Imagenes/tranquilito.jpg" alt="Publicacion quemada" height="300">
-            <h4>Usuario 1</h4>
-            <p>Tranqulito, manejando la tranquilidad</p>
-        </div>
+    <section id="publicaciones" aria-labelledby="tituloPublicaciones">
+        <h2 class="subti" id="tituloPublicaciones">Publicaciones</h2>
+        <p id="estadoPublicaciones" role="status" aria-live="polite">Cargando publicaciones...</p>
+        <p class="nota-api">JSONPlaceholder no guarda los cambios en el servidor; esta pagina los conserva en este navegador. <a href="https://jsonplaceholder.typicode.com/guide/" target="_blank" rel="noopener noreferrer">Documentacion</a></p>
+        <div id="listaPublicaciones" aria-live="polite"></div>
+    </section>
 
-    </div>
+    <script src="js/api.js"></script>
+    <script src="https://unpkg.com/zuck.js@2.1.1/dist/zuck.js"></script>
+    <script src="js/historias.js"></script>
+    <script src="js/publicaciones.js"></script>
 
 </body>
 

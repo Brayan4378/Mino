@@ -1,30 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mino</title>
+    <title>Iniciar sesión | Mino</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/tema.js"></script>
 </head>
 
-<body class = "login">
-    <a href="Menu.html">
-        <img src="/Imagenes/logo.png" alt="Logo" height="100">
-    </a>
-   <form>
-    <h1>Iniciar Sesión</h1>
-    <br><br>
-    <label>Nombre:</label>
-    <input type="text" id="username" name="username"><br><br>
+<body class="login">
+    <main class="registro-contenedor">
+        <a class="registro-marca" href="Menu.html" aria-label="Mino, ir al inicio">
+            <img src="Imagenes/logo.png" alt="">
+            <span>Mino</span>
+        </a>
 
-    <label>Contraseña:</label>
-    <input type="password" id="password" name="password"><br><br>
+        <form class="registro-formulario" autocomplete="on">
+            <header class="registro-encabezado">
+                <p class="registro-etiqueta">QUÉ BUENO VERTE</p>
+                <h1>Iniciar sesión</h1>
+                <p>Entra para seguir en contacto con tu comunidad.</p>
+            </header>
 
-    <input type="button" value="Iniciar Sesión" onclick="validarLogin()">
-    <a href="registro.html">¿No tienes cuenta? Regístrate aquí</a>
-</form>
-<script src="js/login.js"></script>
+            <div class="registro-campo">
+                <label for="email">Correo electrónico</label>
+                <input type="email" id="email" name="email" autocomplete="email"
+                    placeholder="tu@correo.com" required>
+            </div>
+
+            <div class="registro-campo">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password"
+                    autocomplete="current-password" placeholder="Tu contraseña" required>
+            </div>
+
+            <p id="estadoLogin" role="status" aria-live="polite"></p>
+            <button class="registro-boton" type="submit">Iniciar sesión</button>
+            <p class="registro-iniciar">¿No tienes una cuenta? <a href="registro.html">Regístrate</a></p>
+        </form>
+    </main>
+    <script src="js/api.js"></script>
+    <script src="js/login.js"></script>
 </body>
 
 </html>

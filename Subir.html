@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mino</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/tema.js"></script>
 </head>
 
 <body>
@@ -18,6 +19,48 @@
         <li><a href="Configuracion.html"><img src="/Imagenes/controles.png" alt="Logo Configuración">Configuración</a>
         </li>
     </ul>
+
+    <main id="subir" class="pagina-subir">
+        <section class="panel-subir" aria-labelledby="tituloSubir">
+            <h1 class="subti" id="tituloSubir">Crear publicación</h1>
+            <p id="estadoPublicaciones" role="status" aria-live="polite"></p>
+            <p class="nota-api">JSONPlaceholder no guarda los cambios en el servidor; se conservan en este navegador. <a href="https://jsonplaceholder.typicode.com/guide/" target="_blank" rel="noopener noreferrer">Documentacion</a></p>
+            <form id="formularioPublicacion" class="formulario-publicacion">
+                <label for="tituloPublicacion">Titulo</label>
+                <input id="tituloPublicacion" name="title" type="text" maxlength="100" required>
+                <label for="contenidoPublicacion">Contenido</label>
+                <textarea id="contenidoPublicacion" name="body" rows="4" maxlength="500" required></textarea>
+                <button type="submit">Publicar</button>
+            </form>
+        </section>
+
+        <section class="panel-subir" aria-labelledby="tituloHistoria">
+            <h2 class="subti" id="tituloHistoria">Subir una historia</h2>
+            <p id="estadoHistorias" role="status" aria-live="polite"></p>
+            <form id="formularioHistoria" class="formulario-publicacion formulario-historia">
+                <label for="imagenHistoria">Imagen</label>
+                <input id="imagenHistoria" name="archivo" type="file" accept="image/png,image/jpeg,image/webp" required>
+                <label for="textoHistoria">Texto (opcional)</label>
+                <textarea id="textoHistoria" name="contenido" rows="3" maxlength="250"></textarea>
+                <p class="nota-api">Las historias se muestran durante 24 horas.</p>
+                <button type="submit">Publicar historia</button>
+            </form>
+        </section>
+
+        <section class="panel-subir publicaciones-propias" aria-labelledby="tituloMisPublicaciones">
+            <h2 class="subti" id="tituloMisPublicaciones">Mis publicaciones</h2>
+            <div id="misPublicaciones"></div>
+        </section>
+
+        <section class="panel-subir publicaciones-propias" aria-labelledby="tituloPublicacionesDisponibles">
+            <h2 class="subti" id="tituloPublicacionesDisponibles">Publicaciones</h2>
+            <div id="publicacionesEditables"></div>
+        </section>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/historias.js"></script>
+    <script src="js/publicaciones.js"></script>
 </body>
 
 </html>
