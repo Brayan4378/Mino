@@ -67,11 +67,24 @@ a,
 }
 
 /* ===== Paneles laterales (historias y sugerencias) ===== */
+#panel-lateral {
+    position: fixed;
+    top: 0;
+    right: 0;
+    display: flex;
+    width: 30%;
+    max-height: 100vh;
+    flex-direction: column;
+    gap: 12px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
 #historias,
 #sugerencias {
-    position: fixed;
-    right: 0;
-    width: 30%;
+    position: static;
+    flex: 0 0 auto;
+    width: 100%;
     box-sizing: border-box;
     background: rgb(30, 25, 30);
     color: white;
@@ -82,7 +95,6 @@ a,
 }
 
 #historias {
-    top: 0;
     height: auto;
     display: flex;
     flex-wrap: wrap;
@@ -95,28 +107,18 @@ a,
 }
 
 .historia-vacia {
-    display: flex;
-    width: 64px;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    color: inherit;
-    font-size: 12px;
+    width: 100%;
+    margin: 0;
+    color: rgb(220, 210, 225);
+    font-size: 13px;
+    line-height: 1.4;
 }
 
-.historia-vacia img {
-    box-sizing: border-box;
-    width: 56px;
-    height: 56px;
-    padding: 8px;
-    object-fit: contain;
-    border: 2px solid #8b45a0;
-    border-radius: 50%;
+.historia-vacia a {
+    color: rgb(220, 167, 234);
 }
 
 #sugerencias {
-    bottom: 55%;
-    min-height: 20%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     align-items: start;
@@ -130,6 +132,19 @@ a,
 
 #sugerencias .subti {
     grid-column: 1 / -1;
+}
+
+#estadoSugerencias {
+    grid-column: 1 / -1;
+    margin: 0;
+}
+
+#listaSugerencias {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px 8px;
+    width: 100%;
 }
 
 .historia,
@@ -153,6 +168,40 @@ a,
 .historia p,
 .sugerencia p {
     margin: 0;
+}
+
+.sugerencia-perfil {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: inherit;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+}
+
+.sugerencia-perfil:hover {
+    color: rgb(220, 167, 234);
+}
+
+.boton-sugerencia-seguir {
+    padding: 5px 8px;
+    color: white;
+    background: rgb(91, 48, 99);
+    border: 0;
+    border-radius: 6px;
+    font: inherit;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.boton-sugerencia-seguir:disabled {
+    cursor: default;
+    opacity: 0.7;
+}
+
+#estadoSugerencias[data-tipo="error"] {
+    color: #ff9a9a;
 }
 
 /* ===== Publicaciones ===== */
@@ -183,6 +232,15 @@ a,
     height: auto;
 }
 
+.imagen-publicacion {
+    display: block;
+    width: 100%;
+    max-height: 480px;
+    margin-bottom: 16px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
 .formulario-publicacion,
 .formulario-edicion {
     display: flex;
@@ -207,6 +265,48 @@ a,
     font: inherit;
 }
 
+.formulario-publicacion input[type="file"],
+.formulario-edicion input[type="file"],
+.formulario-foto-perfil input[type="file"] {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    padding: 6px;
+    color: rgb(220, 210, 225);
+    background: rgb(21, 16, 25);
+    border: 1px solid rgb(91, 48, 99);
+    border-radius: 8px;
+    font: inherit;
+    font-size: 13px;
+}
+
+.formulario-publicacion input[type="file"]::file-selector-button,
+.formulario-edicion input[type="file"]::file-selector-button,
+.formulario-foto-perfil input[type="file"]::file-selector-button {
+    margin-right: 10px;
+    padding: 8px 12px;
+    color: white;
+    background: rgb(91, 48, 99);
+    border: 0;
+    border-radius: 6px;
+    font: inherit;
+    cursor: pointer;
+    transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.formulario-publicacion input[type="file"]::file-selector-button:hover,
+.formulario-edicion input[type="file"]::file-selector-button:hover,
+.formulario-foto-perfil input[type="file"]::file-selector-button:hover {
+    background: rgb(116, 62, 128);
+}
+
+.formulario-publicacion input[type="file"]:focus-visible,
+.formulario-edicion input[type="file"]:focus-visible,
+.formulario-foto-perfil input[type="file"]:focus-visible {
+    outline: 2px solid rgb(220, 167, 234);
+    outline-offset: 3px;
+}
+
 .formulario-publicacion button,
 .formulario-edicion button,
 .acciones-publicacion button {
@@ -220,8 +320,16 @@ a,
 }
 
 #listaPublicaciones {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
     width: 100%;
     max-width: 400px;
+}
+
+#listaPublicaciones > .publicacion + .publicacion {
+    padding-top: 24px;
+    border-top: 1px solid rgb(85, 75, 90);
 }
 
 .publicacion-encabezado,
@@ -250,6 +358,7 @@ a,
     background: rgb(91, 48, 99);
     border-radius: 50%;
     font-size: 13px;
+    object-fit: cover;
 }
 
 .publicacion h3 {
@@ -332,10 +441,6 @@ a,
     max-width: none;
 }
 
-.formulario-historia input[type="file"] {
-    color: inherit;
-}
-
 #estadoHistorias[data-tipo="error"],
 #estadoFotoPerfil[data-tipo="error"] {
     color: #ff9a9a;
@@ -410,6 +515,15 @@ html.temaClaro .menu-publicacion[open] .boton-opciones-publicacion {
     align-items: center;
     padding: 12px 16px;
     border-bottom: 1px solid #ddd;
+}
+
+#opciones .lista-opciones .opcion-privacidad {
+    flex-wrap: wrap;
+}
+
+#opciones .lista-opciones .opcion-privacidad p {
+    flex: 0 0 100%;
+    margin: 8px 0 0;
 }
 
 #opciones .lista-opciones button {
@@ -749,12 +863,21 @@ html.temaClaro .login {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
-    max-width: 220px;
+    gap: 8px;
+    width: min(100%, 260px);
 }
 
-.formulario-foto-perfil input {
-    max-width: 100%;
+.formulario-foto-perfil[hidden] {
+    display: none;
+}
+
+.formulario-foto-perfil h3 {
+    margin: 8px 0 0;
+}
+
+.formulario-foto-perfil label {
+    color: rgb(220, 210, 225);
+    font-size: 14px;
 }
 
 .formulario-foto-perfil button {
@@ -786,6 +909,195 @@ html.temaClaro .login {
     list-style: none;
     padding: 0;
     margin: 0;
+}
+
+.perfil-publicaciones {
+    margin: 16px 30px 32px 150px;
+    padding: 20px 0;
+    border-top: 1px solid rgb(85, 75, 90);
+}
+
+.perfil-publicaciones h2 {
+    margin: 0 0 14px;
+    font-size: 20px;
+}
+
+#listaPublicacionesPerfil {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+}
+
+.publicacion-perfil {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1;
+    background: rgb(42, 35, 46);
+    color: white;
+}
+
+.publicacion-perfil > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.contenido-publicacion-perfil {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    max-height: 65%;
+    overflow: hidden;
+    padding: 12px;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.88));
+    color: white;
+}
+
+.contenido-publicacion-perfil h3 {
+    margin: 0 0 5px;
+    font-size: 15px;
+}
+
+.contenido-publicacion-perfil p {
+    display: -webkit-box;
+    overflow: hidden;
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.35;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+.interacciones-publicacion-perfil {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 5px 8px;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.65);
+    color: white;
+    font-size: 12px;
+}
+
+.perfil-stat-boton {
+    padding: 0;
+    color: inherit;
+    font: inherit;
+    background: none;
+    border: 0;
+    cursor: pointer;
+}
+
+.perfil-stat-boton:hover,
+.perfil-stat-boton:focus-visible {
+    color: rgb(220, 167, 234);
+    text-decoration: underline;
+}
+
+.modal-relaciones {
+    box-sizing: border-box;
+    width: min(460px, calc(100% - 32px));
+    max-height: min(620px, calc(100% - 32px));
+    padding: 20px;
+    color: white;
+    background: rgb(30, 25, 30);
+    border: 1px solid rgb(85, 75, 90);
+    border-radius: 12px;
+}
+
+.modal-relaciones::backdrop {
+    background: rgb(0 0 0 / 65%);
+}
+
+.modal-relaciones-encabezado {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.modal-relaciones-encabezado h2 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.modal-relaciones-encabezado button {
+    width: 36px;
+    height: 36px;
+    color: inherit;
+    font-size: 24px;
+    background: transparent;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.lista-relaciones-perfil {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 440px;
+    overflow-y: auto;
+}
+
+.relacion-perfil {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-width: 0;
+    padding: 8px;
+    border: 1px solid rgb(85, 75, 90);
+    border-radius: 9px;
+}
+
+.relacion-perfil-enlace {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 12px;
+    align-self: stretch;
+    min-width: 0;
+    margin-block: -8px;
+    padding-block: 8px;
+    color: inherit;
+    text-decoration: none;
+}
+
+.relacion-perfil-enlace:hover .relacion-perfil-nombre,
+.relacion-perfil-enlace:focus-visible .relacion-perfil-nombre {
+    text-decoration: underline;
+}
+
+.relacion-perfil-foto {
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.relacion-perfil-nombre {
+    overflow: hidden;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.relacion-perfil-seguir {
+    flex-shrink: 0;
+    padding: 8px 12px;
+    color: white;
+    background: rgb(91, 48, 99);
+    border: 0;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.relacion-perfil-seguir:disabled {
+    cursor: wait;
+    opacity: 0.65;
 }
 
 #perfil-bio {
@@ -820,6 +1132,10 @@ html.temaClaro .login {
 .perfil-enviar-mensaje[hidden],
 #perfil-botones button[hidden] {
     display: none;
+}
+
+#botonSeguirPerfil {
+    background-color: rgb(91, 48, 99);
 }
 
 .perfil-pagina {
@@ -988,17 +1304,37 @@ html.temaClaro .login {
     text-decoration: none;
 }
 
-.resultado-usuario-acciones a:last-child {
+.resultado-usuario-acciones a[href^="Mensajes.html"] {
     padding: 7px 10px;
     color: white;
     background: rgb(91, 48, 99);
     border-radius: 7px;
 }
 
+.resultado-usuario-acciones button {
+    flex-shrink: 0;
+    padding: 7px 10px;
+    color: white;
+    background: rgb(91, 48, 99);
+    border: 0;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
 html.temaClaro .perfil-formulario,
 html.temaClaro .resultado-usuario {
     color: #28232b;
     background: #fff;
+    border-color: #d8d2dc;
+}
+
+html.temaClaro .modal-relaciones {
+    color: #28232b;
+    background: #fff;
+    border-color: #d8d2dc;
+}
+
+html.temaClaro .relacion-perfil {
     border-color: #d8d2dc;
 }
 
@@ -1065,8 +1401,10 @@ html.temaClaro .buscar-campo input {
     position: fixed;
     bottom: 30px;
     right: 30px;
+    z-index: 20;
     width: 55px;
     height: 55px;
+    padding: 0;
     background: rgb(41, 19, 41);
     border-radius: 50%;
     border: 1px solid purple;
@@ -1074,6 +1412,7 @@ html.temaClaro .buscar-campo input {
     align-items: center;
     justify-content: center;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
 }
 
 #abrirMiniChat img {
@@ -1085,7 +1424,7 @@ html.temaClaro .buscar-campo input {
     position: fixed;
     right: 30px;
     bottom: 100px;
-    z-index: 5;
+    z-index: 21;
     display: flex;
     flex-direction: column;
     width: 320px;
@@ -1104,6 +1443,14 @@ html.temaClaro .buscar-campo input {
     display: none;
 }
 
+html[data-mini-chat-restore] #miniChat {
+    display: flex;
+}
+
+html[data-mini-chat-restore] #miniChatListaVista {
+    display: none;
+}
+
 .miniChatEncabezado,
 .miniChatAcciones,
 .miniChatCompositor {
@@ -1117,11 +1464,20 @@ html.temaClaro .buscar-campo input {
     background: rgb(41, 19, 41);
 }
 
-.miniChatEncabezado>img {
+.miniChatAvatar {
+    display: grid;
     width: 40px;
     height: 40px;
+    flex: 0 0 40px;
+    place-items: center;
+    color: white;
+    background: linear-gradient(135deg, rgb(132, 63, 151), rgb(100, 48, 122));
     border-radius: 50%;
-    object-fit: cover;
+    font-weight: 700;
+}
+
+.miniChatAvatar[hidden] {
+    display: none;
 }
 
 .miniChatContacto {
@@ -1133,6 +1489,31 @@ html.temaClaro .buscar-campo input {
 
 .miniChatContacto span {
     font-size: 12px;
+}
+
+.miniChatPagina,
+.miniChatCerrar,
+.miniChatVolver {
+    display: grid;
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    place-items: center;
+    color: white;
+    background: transparent;
+    border: 0;
+    border-radius: 50%;
+    font: inherit;
+    font-size: 20px;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.miniChatPagina:hover,
+.miniChatCerrar:hover,
+.miniChatVolver:hover {
+    background: rgb(255 255 255 / 14%);
 }
 
 .miniChatAcciones button,
@@ -1152,8 +1533,88 @@ html.temaClaro .buscar-campo input {
     min-height: 0;
 }
 
-.miniChatMensajes {
+#miniChatConversacion[hidden] {
+    display: none;
+}
+
+.miniChatListaVista {
     flex: 1;
+    min-height: 0;
+    padding: 8px;
+    overflow-y: auto;
+}
+
+.miniChatEstado,
+.miniChatVacio {
+    margin: 8px;
+    color: rgb(190, 185, 195);
+    font-size: 13px;
+}
+
+.miniChatListaConversaciones {
+    display: flex;
+    flex-direction: column;
+}
+
+.miniChatListaConversaciones > a {
+    display: block;
+    margin: 8px;
+    color: rgb(220, 167, 234);
+    font-size: 13px;
+}
+
+.miniChatTarjeta {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 6px;
+    color: inherit;
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.miniChatTarjeta:hover,
+.miniChatTarjeta:focus-visible {
+    background: rgb(255 255 255 / 8%);
+}
+
+.miniChatDatos {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+    gap: 4px;
+}
+
+.miniChatVistaPrevia {
+    overflow: hidden;
+    color: rgb(190, 185, 195);
+    font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.miniChatNoLeidos {
+    display: grid;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    place-items: center;
+    color: white;
+    background: #e24661;
+    border-radius: 12px;
+    font-size: 11px;
+}
+
+.miniChatMensajes {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
     padding: 12px;
     overflow-y: auto;
 }
@@ -1161,6 +1622,8 @@ html.temaClaro .buscar-campo input {
 .miniChatMensajes p {
     width: fit-content;
     max-width: 80%;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
     margin: 0 0 8px;
     padding: 8px 10px;
     background: rgb(70, 65, 70);
@@ -1187,6 +1650,15 @@ html.temaClaro .buscar-campo input {
     border-radius: 4px;
 }
 
+.miniChatCompositor button:disabled {
+    cursor: wait;
+    opacity: 0.6;
+}
+
+.miniChatEstado[data-tipo="error"] {
+    color: #ff9a9a;
+}
+
 html.temaClaro #miniChat {
     color: #28232b;
     background: #fff;
@@ -1206,6 +1678,27 @@ html.temaClaro .miniChatMensajes .mensajeUsuario {
 
 html.temaClaro .miniChatMensajes p {
     background: #f0edf1;
+}
+
+html.temaClaro .miniChatVistaPrevia,
+html.temaClaro .miniChatEstado,
+html.temaClaro .miniChatVacio {
+    color: #655b6b;
+}
+
+@media (max-width: 800px) {
+    #miniChat {
+        right: 16px;
+        bottom: 84px;
+        width: min(360px, calc(100vw - 32px));
+        height: min(480px, calc(100vh - 110px));
+        max-height: none;
+    }
+
+    #abrirMiniChat {
+        right: 16px;
+        bottom: 16px;
+    }
 }
 
 html.temaClaro .miniChatMensajes .mensajeUsuario {
@@ -1466,6 +1959,14 @@ html.temaClaro .miniChatCompositor input {
 
 #mensajes-vacio[hidden] {
     display: none;
+}
+
+html[data-chat-restore="true"] #mensajes-vacio {
+    display: none;
+}
+
+html[data-chat-restore="true"] #conversacionActiva {
+    display: flex;
 }
 
 #mensajes-icono-circulo {
@@ -1765,9 +2266,12 @@ html.temaClaro #mensajes-icono-circulo {
 /* parte del movil */
 @media (min-width: 801px) and (max-width: 1100px) {
 
+    #panel-lateral {
+        width: 29%;
+    }
+
     #historias,
     #sugerencias {
-        width: 29%;
         padding: 16px;
     }
 
@@ -1789,6 +2293,13 @@ html.temaClaro #mensajes-icono-circulo {
 
     body {
         overflow-x: hidden;
+    }
+
+    #panel-lateral {
+        position: static;
+        width: 100%;
+        max-height: none;
+        overflow: visible;
     }
 
     #menu {
@@ -1851,7 +2362,17 @@ html.temaClaro #mensajes-icono-circulo {
     }
 
     #sugerencias {
-        display: none;
+        position: static;
+        width: 100%;
+        margin: 0;
+        padding: 16px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        border-color: transparent;
+        border-radius: 0;
+    }
+
+    #listaSugerencias {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     #publicaciones {
@@ -1901,6 +2422,15 @@ html.temaClaro #mensajes-icono-circulo {
         padding: 16px 16px 84px;
     }
 
+    .perfil-publicaciones {
+        margin: 12px 0 24px;
+        padding: 16px;
+    }
+
+    #listaPublicacionesPerfil {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .perfil-formulario {
         margin: 16px 0;
         padding: 16px;
@@ -1926,6 +2456,15 @@ html.temaClaro #mensajes-icono-circulo {
         flex-wrap: wrap;
         justify-content: center;
         gap: 10px 18px;
+    }
+
+    .modal-relaciones {
+        padding: 16px;
+    }
+
+    .relacion-perfil-seguir {
+        padding: 7px 9px;
+        font-size: 0.85rem;
     }
 
     #perfil-botones {
@@ -1974,11 +2513,31 @@ html.temaClaro #mensajes-icono-circulo {
         display: none;
     }
 
+    html[data-chat-restore="true"] #mensajes-lista {
+        display: none;
+    }
+
+    html[data-chat-restore="true"] #mensajes-chat {
+        display: flex;
+        width: 100%;
+        height: 100%;
+    }
+
     #mensajes-container.chat-abierto #mensajes-lista {
         display: none;
     }
 
     #mensajes-container.chat-abierto #mensajes-chat {
+        display: flex;
+        width: 100%;
+        height: 100%;
+    }
+
+    body[data-chat-open="true"] #mensajes-container #mensajes-lista {
+        display: none;
+    }
+
+    body[data-chat-open="true"] #mensajes-container #mensajes-chat {
         display: flex;
         width: 100%;
         height: 100%;
@@ -2433,6 +2992,7 @@ html.temaClaro #opciones .lista-opciones button:hover {
 html.temaClaro #menu,
 html.temaClaro #historias,
 html.temaClaro #sugerencias,
+html.temaClaro .perfil-publicaciones,
 html.temaClaro #publicaciones,
 html.temaClaro .registro,
 html.temaClaro .login,
@@ -2442,6 +3002,24 @@ html.temaClaro .form-contrasena,
 html.temaClaro .ayuda-contacto {
     background: #fff;
     border-color: #d8d2dc;
+}
+
+html.temaClaro .boton-sugerencia-seguir {
+    color: #fff;
+}
+
+html.temaClaro .publicacion-perfil {
+    background: #e8e1eb;
+}
+
+html.temaClaro .contenido-publicacion-perfil {
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.88));
+}
+
+html.temaClaro .contenido-publicacion-perfil,
+html.temaClaro .contenido-publicacion-perfil *,
+html.temaClaro .interacciones-publicacion-perfil {
+    color: #fff !important;
 }
 
 html.temaClaro .registro input[type="text"],
@@ -2542,4 +3120,437 @@ html.temaClaro .terminos section {
     justify-content: flex-end;
     gap: 8px;
     margin-top: 18px;
+}
+
+/* Interacciones sociales */
+.interacciones-publicacion {
+    width: 100%;
+    padding-top: 10px;
+    border-top: 1px solid rgb(85, 75, 90);
+}
+
+.acciones-sociales-publicacion {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.boton-like-publicacion,
+.boton-comentarios {
+    padding: 6px 0;
+    color: inherit;
+    background: transparent;
+    border: 0;
+    font: inherit;
+    cursor: pointer;
+}
+
+.boton-like-publicacion.activo,
+.boton-like-publicacion:hover {
+    color: #ff5b78;
+}
+
+.cantidad-likes {
+    margin-right: auto;
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+.panel-comentarios {
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 8px;
+}
+
+.panel-comentarios[hidden] {
+    display: none;
+}
+
+.lista-comentarios {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.comentario-publicacion {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.contenido-comentario {
+    flex: 1;
+    min-width: 0;
+}
+
+.avatar-comentario {
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.texto-comentario {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    margin: 0 0 4px !important;
+}
+
+.texto-comentario strong {
+    margin-right: 4px;
+}
+
+.boton-responder-comentario {
+    padding: 2px 0;
+    color: rgb(220, 167, 234);
+    background: none;
+    border: 0;
+    font: inherit;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.boton-responder-comentario:hover {
+    text-decoration: underline;
+}
+
+.respuestas-comentario {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 10px 0 0 4px;
+    padding-left: 12px;
+    border-left: 1px solid rgb(91, 48, 99);
+}
+
+.formulario-respuesta {
+    margin: 8px 0 4px;
+}
+
+.estado-comentarios {
+    margin: 8px 0;
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+.formulario-comentario {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.formulario-comentario[hidden] {
+    display: none;
+}
+
+.formulario-comentario input {
+    box-sizing: border-box;
+    flex: 1;
+    min-width: 0;
+    padding: 8px 10px;
+    color: inherit;
+    background: rgb(21, 16, 25);
+    border: 1px solid rgb(91, 48, 99);
+    border-radius: 8px;
+    font: inherit;
+}
+
+.formulario-comentario button,
+.formulario-respuesta button,
+#marcarTodasLeidas,
+.notificacion-destino {
+    padding: 8px 12px;
+    color: white;
+    background: rgb(91, 48, 99);
+    border: 0;
+    border-radius: 8px;
+    font: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.formulario-comentario button:disabled,
+.formulario-respuesta button:disabled,
+#marcarTodasLeidas:disabled {
+    cursor: wait;
+    opacity: 0.6;
+}
+
+.story-viewer {
+    position: relative;
+}
+
+.story-viewer .boton-like-historia {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    z-index: 20;
+    padding: 10px 16px;
+    color: white;
+    background: rgb(30 25 30 / 75%);
+    border: 1px solid rgb(255 255 255 / 55%);
+    border-radius: 24px;
+    font: inherit;
+    transform: translateX(-50%);
+    cursor: pointer;
+}
+
+.story-viewer .boton-like-historia.activo {
+    color: #ff5b78;
+}
+
+.cantidad-likes-historia {
+    margin-left: 8px;
+}
+
+/* Bandeja de notificaciones */
+.icono-notificaciones {
+    display: grid;
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+#menu li a.link-notificaciones {
+    position: relative;
+}
+
+.notificaciones-insignia:not([hidden]) {
+    position: absolute;
+    top: 4px;
+    right: 18px;
+    display: grid;
+    min-width: 17px;
+    height: 17px;
+    padding: 0 3px;
+    place-items: center;
+    color: white !important;
+    background: #e24661;
+    border: 2px solid rgb(30, 25, 30);
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.pagina-notificaciones {
+    box-sizing: border-box;
+    width: min(820px, calc(100% - 124px));
+    margin: 0 auto 0 100px;
+    padding: 36px 24px 80px;
+    color: white;
+}
+
+.encabezado-notificaciones {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.encabezado-notificaciones h1 {
+    margin: 4px 0 0;
+}
+
+.etiqueta-notificaciones {
+    margin: 0;
+    color: rgb(220, 167, 234);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+}
+
+#seccionSolicitudesSeguimiento {
+    margin-bottom: 28px;
+}
+
+#seccionSolicitudesSeguimiento h2,
+#tituloActividadNotificaciones {
+    margin: 0 0 14px;
+    font-size: 20px;
+}
+
+.lista-notificaciones {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.notificacion {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr) auto 28px;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    background: rgb(30, 25, 30);
+    border: 1px solid rgb(85, 75, 90);
+    border-radius: 12px;
+}
+
+.notificacion-no-leida {
+    border-color: rgb(164, 94, 182);
+    background: rgb(46, 34, 49);
+}
+
+.notificacion-solicitud {
+    grid-template-columns: 48px minmax(0, 1fr) auto;
+}
+
+.solicitud-seguimiento-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.solicitud-seguimiento-acciones button {
+    padding: 8px 12px;
+    color: white;
+    background: rgb(91, 48, 99);
+    border: 0;
+    border-radius: 8px;
+    font: inherit;
+    cursor: pointer;
+}
+
+.solicitud-seguimiento-acciones button:last-child {
+    background: transparent;
+    border: 1px solid rgb(164, 94, 182);
+}
+
+.solicitud-seguimiento-acciones button:disabled {
+    cursor: wait;
+    opacity: 0.65;
+}
+
+.notificacion-avatar {
+    width: 46px;
+    height: 46px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.notificacion-contenido {
+    min-width: 0;
+}
+
+.notificacion-contenido p {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.notificacion-actor {
+    color: inherit;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.notificacion-actor:hover {
+    text-decoration: underline;
+}
+
+.notificacion-comentario,
+.notificacion-detalle,
+.notificacion-fecha {
+    display: block;
+    margin-top: 5px !important;
+    font-size: 13px;
+    opacity: 0.75;
+}
+
+.notificacion-marcar-leida {
+    width: 14px;
+    height: 14px;
+    padding: 0;
+    background: #a45eb6;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.notificacion-marcar-leida:disabled {
+    cursor: wait;
+    opacity: 0.5;
+}
+
+#estadoNotificaciones[data-tipo="error"] {
+    color: #ff9a9a;
+}
+
+html.temaClaro .interacciones-publicacion,
+html.temaClaro .notificacion {
+    border-color: #d8d2dc;
+}
+
+html.temaClaro .notificacion {
+    background: #fff;
+}
+
+html.temaClaro .notificacion-no-leida {
+    background: #f3eaf5;
+    border-color: #a45eb6;
+}
+
+html.temaClaro .formulario-comentario input {
+    background: #f7f5f8;
+    border-color: #b99abd;
+}
+
+html.temaClaro .notificaciones-insignia:not([hidden]) {
+    border-color: #fff;
+}
+
+@media (max-width: 800px) {
+    .pagina-notificaciones {
+        width: 100%;
+        margin: 0;
+        padding: 24px 16px 88px;
+    }
+
+    .notificacion {
+        grid-template-columns: 40px minmax(0, 1fr) auto;
+        gap: 9px;
+        padding: 11px;
+    }
+
+    .notificacion-solicitud {
+        grid-template-columns: 40px minmax(0, 1fr);
+    }
+
+    .solicitud-seguimiento-acciones {
+        grid-column: 2;
+        justify-content: flex-start;
+    }
+
+    .notificacion-avatar {
+        width: 38px;
+        height: 38px;
+    }
+
+    .notificacion-destino {
+        grid-column: 2;
+        justify-self: start;
+    }
+
+    .notificacion-marcar-leida {
+        grid-column: 3;
+        grid-row: 1;
+    }
+
+    .encabezado-notificaciones {
+        align-items: flex-start;
+    }
+
+    .encabezado-notificaciones button {
+        max-width: 140px;
+        font-size: 12px;
+    }
+
+    .notificaciones-insignia:not([hidden]) {
+        top: 2px;
+        right: 2px;
+    }
 }

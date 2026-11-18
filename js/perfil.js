@@ -5,9 +5,12 @@ const formularioContrasena = document.getElementById("formularioCambiarContrasen
 const seccionEditarPerfil = document.getElementById("seccionEditarPerfil");
 const seccionCambiarContrasena = document.getElementById("seccionCambiarContrasena");
 const botonesPerfil = document.getElementById("perfil-botones");
+const botonSeguirPerfil = document.getElementById("botonSeguirPerfil");
+const botonLoginSeguir = document.getElementById("botonLoginSeguir");
 const parametrosPerfil = new URLSearchParams(window.location.search);
 const idSolicitado = parametrosPerfil.get("id");
 let perfilPropio = false;
+let idPerfilActual = null;
 
 function mostrarEstado(elemento, mensaje, tipo = "") {
     elemento.textContent = mensaje;
@@ -15,8 +18,14 @@ function mostrarEstado(elemento, mensaje, tipo = "") {
 }
 
 function mostrarDatosPerfil(usuario) {
+    document.querySelector(".perfil-pagina").classList.remove("perfil-restringido");
     document.getElementById("perfil-usuario").textContent = usuario.nombre;
-    document.getElementById("perfil-foto").src = usuario.fotoPerfil
+    const fotoPerfil = document.getElementById("perfil-foto");
+    fotoPerfil.onerror = () => {
+        fotoPerfil.onerror = null;
+        fotoPerfil.src = "/Imagenes/usuario.png";
+    };
+    fotoPerfil.src = usuario.fotoPerfil
         ? window.MinoApi.urlArchivo(usuario.fotoPerfil)
         : "/Imagenes/usuario.png";
     document.getElementById("perfil-num-publicaciones").textContent = usuario.publicaciones;
@@ -28,11 +37,160 @@ function mostrarDatosPerfil(usuario) {
     document.getElementById("perfil-bio").textContent = usuario.bio || "";
 }
 
+function mostrarPerfilRestringido(usuario, tieneSesion) {
+    const pagina = document.querySelector(".perfil-pagina");
+    pagina.classList.add("perfil-restringido");
+    document.getElementById("perfil-usuario").textContent = usuario.nombre;
+    const fotoPerfil = document.getElementById("perfil-foto");
+    fotoPerfil.onerror = () => {
+        fotoPerfil.onerror = null;
+        fotoPerfil.src = "/Imagenes/usuario.png";
+    };
+    fotoPerfil.src = usuario.fotoPerfil
+        ? window.MinoApi.urlArchivo(usuario.fotoPerfil)
+        : "/Imagenes/usuario.png";
+    document.getElementById("perfil-stats").hidden = true;
+    document.getElementById("perfil-genero").hidden = true;
+    document.getElementById("perfil-bio").hidden = true;
+    formularioFotoPerfil.hidden = true;
+    seccionEditarPerfil.hidden = true;
+    seccionCambiarContrasena.hidden = true;
+
+    botonesPerfil.hidden = false;
+    document.getElementById("botonEditarPerfil").hidden = true;
+    document.getElementById("botonCambiarContrasena").hidden = true;
+    botonSeguirPerfil.hidden = !tieneSesion || usuario.siguiendo;
+    botonSeguirPerfil.dataset.siguiendo = String(Boolean(usuario.siguiendo));
+    botonSeguirPerfil.dataset.solicitudPendiente = String(Boolean(usuario.solicitudPendiente));
+    botonSeguirPerfil.textContent = usuario.solicitudPendiente
+        ? "Cancelar solicitud"
+        : "Seguir";
+    botonLoginSeguir.hidden = tieneSesion;
+    document.getElementById("botonEnviarMensaje").hidden = true;
+    mostrarEstado(
+        estadoPerfil,
+        "Esta cuenta es privada. Síguela para ver su perfil y sus publicaciones."
+    );
+}
+
+function crearFilaRelacion(usuario) {
+    const fila = document.createElement("article");
+    fila.className = "relacion-perfil";
+
+    const enlace = document.createElement("a");
+    enlace.className = "relacion-perfil-enlace";
+    enlace.href = `Perfil.html?id=${encodeURIComponent(usuario.id)}`;
+
+    const foto = document.createElement("img");
+    foto.className = "relacion-perfil-foto";
+    foto.src = usuario.fotoPerfil
+        ? window.MinoApi.urlArchivo(usuario.fotoPerfil)
+        : "/Imagenes/usuario.png";
+    foto.alt = "";
+    foto.addEventListener("error", () => {
+        foto.src = "/Imagenes/usuario.png";
+    }, { once: true });
+
+    const nombre = document.createElement("span");
+    nombre.className = "relacion-perfil-nombre";
+    nombre.textContent = usuario.nombre;
+    enlace.append(foto, nombre);
+    fila.append(enlace);
+
+    const usuarioSesion = window.MinoApi.obtenerUsuario();
+    if (window.MinoApi.tieneSesion() && usuarioSesion && Number(usuarioSesion.id) !== Number(usuario.id)) {
+        const boton = document.createElement("button");
+        boton.className = "relacion-perfil-seguir";
+        boton.type = "button";
+        boton.dataset.siguiendo = String(usuario.siguiendo);
+        boton.textContent = usuario.siguiendo ? "Dejar de seguir" : "Seguir";
+        boton.setAttribute(
+            "aria-label",
+            `${usuario.siguiendo ? "Dejar de seguir a" : "Seguir a"} ${usuario.nombre}`
+        );
+        boton.addEventListener("click", async () => {
+            const siguiendo = boton.dataset.siguiendo === "true";
+            boton.disabled = true;
+            mostrarEstado(estadoRelacionesPerfil, "");
+            try {
+                await window.MinoApi.solicitar(
+                    `/usuarios/${encodeURIComponent(usuario.id)}/seguir`,
+                    { method: siguiendo ? "DELETE" : "POST" }
+                );
+                boton.dataset.siguiendo = String(!siguiendo);
+                boton.textContent = siguiendo ? "Seguir" : "Dejar de seguir";
+                boton.setAttribute(
+                    "aria-label",
+                    `${siguiendo ? "Seguir a" : "Dejar de seguir a"} ${usuario.nombre}`
+                );
+            } catch (error) {
+                mostrarEstado(estadoRelacionesPerfil, error.message, "error");
+            } finally {
+                boton.disabled = false;
+            }
+        });
+        fila.append(boton);
+    }
+
+    return fila;
+}
+
+const modalRelacionesPerfil = document.getElementById("modalRelacionesPerfil");
+const listaRelacionesPerfil = document.getElementById("listaRelacionesPerfil");
+const estadoRelacionesPerfil = document.getElementById("estadoRelacionesPerfil");
+
+async function abrirListaRelaciones(tipo) {
+    if (!idPerfilActual) return;
+
+    const esSeguidores = tipo === "seguidores";
+    document.getElementById("tituloRelacionesPerfil").textContent =
+        esSeguidores ? "Seguidores" : "Seguidos";
+    listaRelacionesPerfil.replaceChildren();
+    mostrarEstado(estadoRelacionesPerfil, "Cargando...");
+    modalRelacionesPerfil.showModal();
+
+    try {
+        const usuarios = await window.MinoApi.solicitar(
+            `/usuarios/${encodeURIComponent(idPerfilActual)}/${tipo}`
+        );
+        listaRelacionesPerfil.replaceChildren();
+        if (usuarios.length === 0) {
+            mostrarEstado(
+                estadoRelacionesPerfil,
+                esSeguidores ? "Aún no tiene seguidores." : "Aún no sigue a nadie."
+            );
+            return;
+        }
+
+        mostrarEstado(estadoRelacionesPerfil, "");
+        usuarios.forEach((usuario) => {
+            listaRelacionesPerfil.append(crearFilaRelacion(usuario));
+        });
+    } catch (error) {
+        mostrarEstado(estadoRelacionesPerfil, error.message, "error");
+    }
+}
+
+document.getElementById("abrirListaSeguidores").addEventListener("click", () => {
+    abrirListaRelaciones("seguidores");
+});
+document.getElementById("abrirListaSeguidos").addEventListener("click", () => {
+    abrirListaRelaciones("seguidos");
+});
+document.getElementById("cerrarModalRelaciones").addEventListener("click", () => {
+    modalRelacionesPerfil.close();
+});
+
 function mostrarAccesoLogin() {
-    mostrarEstado(estadoPerfil, "Inicia sesión para ver tu perfil. ");
+    document.getElementById("perfil-header").hidden = true;
+    document.getElementById("seccionPublicacionesPerfil").hidden = true;
+    formularioFotoPerfil.hidden = true;
+    seccionEditarPerfil.hidden = true;
+    seccionCambiarContrasena.hidden = true;
+    mostrarEstado(estadoPerfil, "Tu sesión venció. Inicia sesión para ver tu perfil. ");
     const enlace = document.createElement("a");
     enlace.href = "Login.html";
-    enlace.textContent = "Ir a iniciar sesión";
+    enlace.textContent = "Iniciar sesión";
     estadoPerfil.appendChild(enlace);
 }
 
@@ -41,6 +199,53 @@ function cargarDatosFormulario(usuario) {
     formularioPerfil.elements.correo.value = usuario.correo;
     formularioPerfil.elements.genero.value = usuario.genero || "";
     formularioPerfil.elements.bio.value = usuario.bio || "";
+}
+
+async function mostrarPerfilCargado(usuario, tieneSesion) {
+    const usuarioSesion = window.MinoApi.obtenerUsuario();
+    const esPerfilPropio = !idSolicitado ||
+        (usuarioSesion && Number(idSolicitado) === Number(usuarioSesion.id));
+
+    perfilPropio = Boolean(esPerfilPropio);
+    idPerfilActual = usuario.id;
+    if (usuario.accesoRestringido) {
+        document.getElementById("seccionPublicacionesPerfil").hidden = true;
+        mostrarPerfilRestringido(usuario, tieneSesion);
+        return;
+    }
+
+    document.getElementById("perfil-header").hidden = false;
+    mostrarDatosPerfil(usuario);
+    if (perfilPropio) {
+        cargarDatosFormulario(usuario);
+        formularioFotoPerfil.hidden = false;
+        document.getElementById("botonEditarPerfil").hidden = false;
+        document.getElementById("botonCambiarContrasena").hidden = false;
+        botonesPerfil.hidden = false;
+    } else {
+        const botonEnviarMensaje = document.getElementById("botonEnviarMensaje");
+        botonEnviarMensaje.href = `Mensajes.html?usuarioId=${encodeURIComponent(usuario.id)}`;
+        botonEnviarMensaje.hidden = false;
+        if (tieneSesion) {
+            const seguimiento = await window.MinoApi.solicitar(
+                `/usuarios/${encodeURIComponent(usuario.id)}/seguimiento`
+            );
+            botonSeguirPerfil.dataset.siguiendo = String(seguimiento.siguiendo);
+            botonSeguirPerfil.dataset.solicitudPendiente = String(seguimiento.solicitudPendiente);
+            botonSeguirPerfil.textContent = seguimiento.siguiendo
+                ? "Dejar de seguir"
+                : seguimiento.solicitudPendiente
+                    ? "Cancelar solicitud"
+                    : "Seguir";
+            botonSeguirPerfil.hidden = false;
+        } else {
+            botonLoginSeguir.hidden = false;
+        }
+        botonesPerfil.hidden = false;
+    }
+
+    mostrarEstado(estadoPerfil, "");
+    await window.cargarPublicacionesPerfil(usuario.id);
 }
 
 async function cargarPerfil() {
@@ -69,28 +274,60 @@ async function cargarPerfil() {
         const usuario = esPerfilPropio
             ? await window.MinoApi.solicitar("/usuarios/me")
             : await window.MinoApi.solicitar(`/usuarios/${encodeURIComponent(idSolicitado)}`);
-
-        perfilPropio = Boolean(esPerfilPropio);
-        mostrarDatosPerfil(usuario);
-
-        if (perfilPropio) {
-            cargarDatosFormulario(usuario);
-            formularioFotoPerfil.hidden = false;
-            document.getElementById("botonEditarPerfil").hidden = false;
-            document.getElementById("botonCambiarContrasena").hidden = false;
-            botonesPerfil.hidden = false;
-        } else {
-            const botonEnviarMensaje = document.getElementById("botonEnviarMensaje");
-            botonEnviarMensaje.href = `Mensajes.html?usuarioId=${encodeURIComponent(usuario.id)}`;
-            botonEnviarMensaje.hidden = false;
-            botonesPerfil.hidden = false;
-        }
-
-        mostrarEstado(estadoPerfil, "");
+        await mostrarPerfilCargado(usuario, tieneSesion);
     } catch (error) {
+        if (!window.MinoApi.tieneSesion()) {
+            if (!idSolicitado) {
+                mostrarAccesoLogin();
+                return;
+            }
+
+            try {
+                const usuario = await window.MinoApi.solicitar(
+                    `/usuarios/${encodeURIComponent(idSolicitado)}`
+                );
+                await mostrarPerfilCargado(usuario, false);
+                return;
+            } catch (errorSinSesion) {
+                mostrarEstado(estadoPerfil, errorSinSesion.message, "error");
+                return;
+            }
+        }
         mostrarEstado(estadoPerfil, error.message, "error");
     }
 }
+
+botonSeguirPerfil.addEventListener("click", async () => {
+    if (!idSolicitado || perfilPropio) return;
+    const siguiendo = botonSeguirPerfil.dataset.siguiendo === "true";
+    const solicitudPendiente = botonSeguirPerfil.dataset.solicitudPendiente === "true";
+    botonSeguirPerfil.disabled = true;
+    try {
+        const resultado = await window.MinoApi.solicitar(
+            `/usuarios/${encodeURIComponent(idSolicitado)}/seguir`,
+            { method: siguiendo || solicitudPendiente ? "DELETE" : "POST" }
+        );
+        botonSeguirPerfil.dataset.siguiendo = String(Boolean(resultado.siguiendo));
+        botonSeguirPerfil.dataset.solicitudPendiente = String(Boolean(resultado.solicitudPendiente));
+        botonSeguirPerfil.textContent = resultado.siguiendo
+            ? "Dejar de seguir"
+            : resultado.solicitudPendiente
+                ? "Cancelar solicitud"
+                : "Seguir";
+
+        if (document.querySelector(".perfil-pagina").classList.contains("perfil-restringido")) {
+            const usuario = await window.MinoApi.solicitar(
+                `/usuarios/${encodeURIComponent(idSolicitado)}`
+            );
+            mostrarPerfilRestringido(usuario, true);
+        }
+        mostrarEstado(estadoPerfil, resultado.mensaje, "exito");
+    } catch (error) {
+        mostrarEstado(estadoPerfil, error.message, "error");
+    } finally {
+        botonSeguirPerfil.disabled = false;
+    }
+});
 
 document.getElementById("botonEditarPerfil").addEventListener("click", () => {
     seccionEditarPerfil.hidden = !seccionEditarPerfil.hidden;

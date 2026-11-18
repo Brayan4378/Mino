@@ -5,7 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mensajes | Mino</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script>
+        try {
+            if (
+                sessionStorage.getItem("minoConversacionActiva") &&
+                localStorage.getItem("minoToken") &&
+                !new URLSearchParams(window.location.search).has("usuarioId")
+            ) {
+                document.documentElement.dataset.chatRestore = "true";
+            }
+        } catch (error) {
+            console.error("No se pudo restaurar visualmente el chat:", error);
+        }
+    </script>
+    <link rel="stylesheet" type="text/css" href="css/style.css?v=20261118-chat-restore">
     <script src="js/tema.js"></script>
 </head>
 
@@ -13,6 +26,7 @@
     <ul id="menu">
         <li id="logo-li"><a href="Menu.html"><img src="Imagenes/logo_transparent.png" alt="Logo Mino">Mino</a></li>
         <li><a href="Mensajes.html" aria-current="page"><img src="Imagenes/sobre.png" alt="Mensajes">Mensajes</a></li>
+        <li><a class="link-notificaciones" href="Notificaciones.html"><img class="icono-notificaciones" src="Imagenes/amor.png" alt=""><span class="texto-notificaciones">Notificaciones</span><span id="insigniaNotificaciones" class="notificaciones-insignia" hidden></span></a></li>
         <li><a href="Buscar.html"><img src="Imagenes/busqueda.png" alt="Buscar">Buscar</a></li>
         <li><a href="Subir.html"><img src="Imagenes/subir.png" alt="Subir">Subir</a></li>
         <li><a href="Perfil.html"><img src="Imagenes/usuario.png" alt="Perfil">Perfil</a></li>
@@ -80,7 +94,7 @@
                     <label class="solo-lectores" for="entradaMensaje">Escribe un mensaje</label>
                     <textarea id="entradaMensaje" name="contenido" rows="1" maxlength="2000"
                         placeholder="Escribe un mensaje..." required></textarea>
-                    <button type="submit" aria-label="Enviar mensaje">Enviar</button>
+                    <button type="button" aria-label="Enviar mensaje">Enviar</button>
                 </form>
                 <p id="estadoEnviarMensaje" class="mensajes-estado" role="status" aria-live="polite"></p>
             </section>
@@ -88,7 +102,8 @@
     </main>
 
     <script src="js/api.js"></script>
-    <script src="js/mensajes.js"></script>
+    <script src="js/mensajes.js?v=20261118-ws5"></script>
+    <script src="js/notificaciones.js"></script>
 </body>
 
 </html>

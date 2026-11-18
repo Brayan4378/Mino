@@ -23,6 +23,7 @@
         try {
             respuesta = await fetch(`${API_BASE_URL}${ruta}`, {
                 ...opciones,
+                cache: "no-store",
                 headers
             });
         } catch (error) {
@@ -51,6 +52,49 @@
         return datos;
     }
 
+    async function obtenerArchivo(ruta) {
+        const headers = new Headers();
+        const token = localStorage.getItem(TOKEN_KEY);
+        if (token) {
+            headers.set("Authorization", `Bearer ${token}`);
+        }
+
+        let respuesta;
+        try {
+            respuesta = await fetch(urlArchivo(ruta), {
+                cache: "no-store",
+                headers
+            });
+        } catch (error) {
+            if (error instanceof TypeError) {
+                throw new Error("No se pudo conectar con la API. Iníciala con npm start dentro de api.");
+            }
+            throw error;
+        }
+
+        if (!respuesta.ok) {
+            let datos;
+            try {
+                datos = JSON.parse(await respuesta.text());
+            } catch {
+                throw new Error(
+                    `La API respondió en un formato inesperado (HTTP ${respuesta.status}).`
+                );
+            }
+
+            if (respuesta.status === 401) {
+                cerrarSesion();
+            }
+            throw new Error(datos.mensaje || "No se pudo cargar el archivo.");
+        }
+
+        return URL.createObjectURL(await respuesta.blob());
+    }
+
+    function urlArchivo(ruta) {
+        return new URL(ruta, `${API_BASE_URL}/`).href;
+    }
+
     function guardarSesion(datos) {
         localStorage.setItem(TOKEN_KEY, datos.token);
         localStorage.setItem(USER_KEY, JSON.stringify(datos.usuario));
@@ -68,7 +112,9 @@
 
     window.MinoApi = {
         solicitar,
-        urlArchivo: (ruta) => new URL(ruta, `${API_BASE_URL}/`).href,
+        obtenerArchivo,
+        urlArchivo,
+        urlWebSocket: () => API_BASE_URL.replace(/^http/, "ws").replace(/\/api$/, "/ws"),
         guardarSesion,
         obtenerUsuario,
         cerrarSesion,

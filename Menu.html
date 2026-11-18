@@ -5,58 +5,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mino</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css?v=20261118-mini-chat-restore">
     <link rel="stylesheet" href="https://unpkg.com/zuck.js@2.1.1/dist/zuck.css">
     <link rel="stylesheet" href="https://unpkg.com/zuck.js@2.1.1/dist/skins/snapgram.css">
+    <script>
+        try {
+            const conversationId = Number(sessionStorage.getItem("minoMiniChatConversacionActiva"));
+            if (Number.isSafeInteger(conversationId) && conversationId > 0 &&
+                localStorage.getItem("minoToken")) {
+                document.documentElement.dataset.miniChatRestore = String(conversationId);
+            }
+        } catch (error) {
+            console.error("No se pudo restaurar el estado del minichat:", error);
+        }
+    </script>
     <script src="js/tema.js"></script>
 </head>
 
 <body>
-    <a href="Mensajes.html" id="abrirMiniChat" aria-label="Abrir mensajes">
+    <button id="abrirMiniChat" type="button" aria-label="Abrir minichat"
+        aria-controls="miniChat" aria-expanded="false">
         <img src="/Imagenes/sobre.png" alt="Mensajes">
-    </a>
+    </button>
+    <section id="miniChat" aria-label="Minichat" hidden>
+        <header class="miniChatEncabezado">
+            <button id="miniChatVolver" class="miniChatVolver" type="button" aria-label="Volver a conversaciones" hidden>‹</button>
+            <span id="miniChatAvatar" class="miniChatAvatar" aria-hidden="true" hidden></span>
+            <div class="miniChatContacto">
+                <strong id="miniChatTitulo">Mensajes</strong>
+                <span id="miniChatSubtitulo">Tus conversaciones</span>
+            </div>
+            <a class="miniChatPagina" href="Mensajes.html" aria-label="Abrir todos los mensajes">↗</a>
+            <button id="cerrarMiniChat" class="miniChatCerrar" type="button" aria-label="Cerrar minichat">×</button>
+        </header>
+        <div id="miniChatListaVista" class="miniChatListaVista">
+            <p id="miniChatEstado" class="miniChatEstado" role="status" aria-live="polite"></p>
+            <div id="miniChatListaConversaciones" class="miniChatListaConversaciones"></div>
+        </div>
+        <div id="miniChatConversacion" class="miniChatContenido" hidden>
+            <div id="miniChatMensajes" class="miniChatMensajes" aria-live="polite"></div>
+            <p id="miniChatEstadoMensaje" class="miniChatEstado" role="status" aria-live="polite"></p>
+            <form id="miniChatCompositor" class="miniChatCompositor">
+                <label class="solo-lectores" for="miniChatEntrada">Escribe un mensaje</label>
+                <input id="miniChatEntrada" name="contenido" type="text" maxlength="2000"
+                    placeholder="Escribe un mensaje..." autocomplete="off" required>
+                <button type="submit" aria-label="Enviar mensaje" disabled>➤</button>
+            </form>
+        </div>
+    </section>
 
     <ul id="menu">
         <li id="logo-li"><a href="Menu.html"><img src="/Imagenes/logo_transparent.png" alt="Logo Mino">Mino</a></li>
         <li><a href="Mensajes.html"><img src="/Imagenes/sobre.png" alt="Logo Mensajes">Mensajes</a></li>
+        <li><a class="link-notificaciones" href="Notificaciones.html"><img class="icono-notificaciones" src="/Imagenes/amor.png" alt=""><span class="texto-notificaciones">Notificaciones</span><span id="insigniaNotificaciones" class="notificaciones-insignia" hidden></span></a></li>
         <li><a href="Buscar.html"><img src="/Imagenes/busqueda.png" alt="Logo Buscar">Buscar</a></li>
         <li><a href="Subir.html"><img src="/Imagenes/subir.png" alt="Logo Subir">Subir</a></li>
         <li><a href="Perfil.html"><img src="/Imagenes/usuario.png" alt="Logo Perfil">Perfil</a></li>
         <li><a href="Configuracion.html"><img src="/Imagenes/controles.png" alt="Logo Configuración">Configuración</a>
         </li>
     </ul>
-    <section id="historias" aria-labelledby="tituloHistorias">
-        <h2 class="subti" id="tituloHistorias">Historias</h2>
-        <div id="stories"></div>
-    </section>
+    <aside id="panel-lateral" aria-label="Historias y sugerencias">
+        <section id="historias" aria-labelledby="tituloHistorias">
+            <h2 class="subti" id="tituloHistorias">Historias</h2>
+            <div id="stories"></div>
+        </section>
 
-    <div id="sugerencias">
-        <h2 class="subti">Sugerencias</h2>
-        <div class="sugerencia">
-            <img src="/Imagenes/imagenEnsayo1.jpg" alt="Ensayo 1">
-            <p>Usuario 1</p>
+        <div id="sugerencias">
+            <h2 class="subti">Sugerencias</h2>
+            <p id="estadoSugerencias" role="status" aria-live="polite">Cargando sugerencias...</p>
+            <div id="listaSugerencias"></div>
         </div>
-        <div class="sugerencia">
-            <img src="/Imagenes/imagenEnsayo2.jpg" alt="Ensayo 2">
-            <p>Usuario 2</p>
-        </div>
-        <div class="sugerencia">
-            <img src="/Imagenes/imagenEnsayo3.jpg" alt="Ensayo 3">
-            <p>Usuario 3</p>
-        </div>
-    </div>
+    </aside>
 
     <section id="publicaciones" aria-labelledby="tituloPublicaciones">
         <h2 class="subti" id="tituloPublicaciones">Publicaciones</h2>
         <p id="estadoPublicaciones" role="status" aria-live="polite">Cargando publicaciones...</p>
-        <p class="nota-api">JSONPlaceholder no guarda los cambios en el servidor; esta pagina los conserva en este navegador. <a href="https://jsonplaceholder.typicode.com/guide/" target="_blank" rel="noopener noreferrer">Documentacion</a></p>
         <div id="listaPublicaciones" aria-live="polite"></div>
     </section>
 
-    <script src="js/api.js"></script>
+    <script src="js/api.js?v=20261118-3"></script>
     <script src="https://unpkg.com/zuck.js@2.1.1/dist/zuck.js"></script>
-    <script src="js/historias.js"></script>
+    <script src="js/historias.js?v=20261118-4"></script>
     <script src="js/publicaciones.js"></script>
+    <script src="js/sugerencias.js?v=20261118-3"></script>
+    <script src="js/notificaciones.js"></script>
+    <script src="js/minichat.js?v=20261118-2"></script>
 
 </body>
 

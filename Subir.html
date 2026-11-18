@@ -13,6 +13,7 @@
     <ul id="menu">
         <li id="logo-li"><a href="Menu.html"><img src="/Imagenes/logo_transparent.png" alt="Logo Mino">Mino</a></li>
         <li><a href="Mensajes.html"><img src="/Imagenes/sobre.png" alt="Logo Mensajes">Mensajes</a></li>
+        <li><a class="link-notificaciones" href="Notificaciones.html"><img class="icono-notificaciones" src="/Imagenes/amor.png" alt=""><span class="texto-notificaciones">Notificaciones</span><span id="insigniaNotificaciones" class="notificaciones-insignia" hidden></span></a></li>
         <li><a href="Buscar.html"><img src="/Imagenes/busqueda.png" alt="Logo Buscar">Buscar</a></li>
         <li><a href="Subir.html"><img src="/Imagenes/subir.png" alt="Logo Subir">Subir</a></li>
         <li><a href="Perfil.html"><img src="/Imagenes/usuario.png" alt="Logo Perfil">Perfil</a></li>
@@ -24,12 +25,13 @@
         <section class="panel-subir" aria-labelledby="tituloSubir">
             <h1 class="subti" id="tituloSubir">Crear publicación</h1>
             <p id="estadoPublicaciones" role="status" aria-live="polite"></p>
-            <p class="nota-api">JSONPlaceholder no guarda los cambios en el servidor; se conservan en este navegador. <a href="https://jsonplaceholder.typicode.com/guide/" target="_blank" rel="noopener noreferrer">Documentacion</a></p>
             <form id="formularioPublicacion" class="formulario-publicacion">
                 <label for="tituloPublicacion">Titulo</label>
                 <input id="tituloPublicacion" name="title" type="text" maxlength="100" required>
                 <label for="contenidoPublicacion">Contenido</label>
                 <textarea id="contenidoPublicacion" name="body" rows="4" maxlength="500" required></textarea>
+                <label for="imagenPublicacion">Imagen (opcional, máximo 10 MB)</label>
+                <input id="imagenPublicacion" name="imagen" type="file" accept="image/png,image/jpeg,image/webp">
                 <button type="submit">Publicar</button>
             </form>
         </section>
@@ -53,7 +55,7 @@
         </section>
 
         <section class="panel-subir publicaciones-propias" aria-labelledby="tituloPublicacionesDisponibles">
-            <h2 class="subti" id="tituloPublicacionesDisponibles">Publicaciones</h2>
+            <h2 class="subti" id="tituloPublicacionesDisponibles">Editar mis publicaciones</h2>
             <div id="publicacionesEditables"></div>
         </section>
     </main>
@@ -61,6 +63,7 @@
     <script src="js/api.js"></script>
     <script src="js/historias.js"></script>
     <script src="js/publicaciones.js"></script>
+    <script src="js/notificaciones.js"></script>
 </body>
 
 </html>

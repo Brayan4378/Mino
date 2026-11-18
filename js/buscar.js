@@ -59,6 +59,19 @@ formularioBusqueda.addEventListener("submit", async (evento) => {
             const acciones = document.createElement("div");
             acciones.className = "resultado-usuario-acciones";
             acciones.append(enlace, enlaceMensaje);
+            if (window.MinoApi.tieneSesion()) {
+                const botonSeguir = document.createElement("button");
+                botonSeguir.type = "button";
+                botonSeguir.dataset.usuarioId = usuario.id;
+                botonSeguir.dataset.siguiendo = String(usuario.siguiendo);
+                botonSeguir.dataset.solicitudPendiente = String(usuario.solicitudPendiente);
+                botonSeguir.textContent = usuario.siguiendo
+                    ? "Dejar de seguir"
+                    : usuario.solicitudPendiente
+                        ? "Cancelar solicitud"
+                        : "Seguir";
+                acciones.append(botonSeguir);
+            }
             tarjeta.append(inicial, detalles, acciones);
             resultadosUsuarios.append(tarjeta);
         });
@@ -66,5 +79,32 @@ formularioBusqueda.addEventListener("submit", async (evento) => {
         mostrarEstadoBusqueda(`${usuarios.length} usuario(s) encontrado(s).`);
     } catch (error) {
         mostrarEstadoBusqueda(error.message, "error");
+    }
+});
+
+resultadosUsuarios.addEventListener("click", async (evento) => {
+    const boton = evento.target.closest("button[data-usuario-id]");
+    if (!boton) return;
+
+    const siguiendo = boton.dataset.siguiendo === "true";
+    const solicitudPendiente = boton.dataset.solicitudPendiente === "true";
+    boton.disabled = true;
+    try {
+        const resultado = await window.MinoApi.solicitar(
+            `/usuarios/${encodeURIComponent(boton.dataset.usuarioId)}/seguir`,
+            { method: siguiendo || solicitudPendiente ? "DELETE" : "POST" }
+        );
+        boton.dataset.siguiendo = String(Boolean(resultado.siguiendo));
+        boton.dataset.solicitudPendiente = String(Boolean(resultado.solicitudPendiente));
+        boton.textContent = resultado.siguiendo
+            ? "Dejar de seguir"
+            : resultado.solicitudPendiente
+                ? "Cancelar solicitud"
+                : "Seguir";
+        mostrarEstadoBusqueda(resultado.mensaje, "exito");
+    } catch (error) {
+        mostrarEstadoBusqueda(error.message, "error");
+    } finally {
+        boton.disabled = false;
     }
 });

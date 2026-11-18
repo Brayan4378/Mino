@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mino</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css?v=20261118-editar-foto">
     <script src="js/tema.js"></script>
 </head>
 
@@ -17,6 +17,7 @@
     <ul id="menu">
         <li id="logo-li"><a href="Menu.html"><img src="/Imagenes/logo_transparent.png" alt="Logo Mino">Mino</a></li>
         <li><a href="Mensajes.html"><img src="/Imagenes/sobre.png" alt="Logo Mensajes">Mensajes</a></li>
+        <li><a class="link-notificaciones" href="Notificaciones.html"><img class="icono-notificaciones" src="/Imagenes/amor.png" alt=""><span class="texto-notificaciones">Notificaciones</span><span id="insigniaNotificaciones" class="notificaciones-insignia" hidden></span></a></li>
         <li><a href="Buscar.html"><img src="/Imagenes/busqueda.png" alt="Logo Buscar">Buscar</a></li>
         <li><a href="Subir.html"><img src="/Imagenes/subir.png" alt="Logo Subir">Subir</a></li>
         <li><a href="Perfil.html"><img src="/Imagenes/usuario.png" alt="Logo Perfil">Perfil</a></li>
@@ -29,20 +30,22 @@
         <div id="perfil-header">
             <div class="perfil-foto-contenedor">
                 <img id="perfil-foto" src="/Imagenes/usuario.png" alt="Foto de perfil">
-                <form id="formularioFotoPerfil" class="formulario-foto-perfil" hidden>
-                    <label for="archivoFotoPerfil">Cambiar foto</label>
-                    <input id="archivoFotoPerfil" name="foto" type="file" accept="image/png,image/jpeg,image/webp" required>
-                    <button type="submit">Cambiar foto</button>
-                    <p id="estadoFotoPerfil" role="status" aria-live="polite"></p>
-                </form>
             </div>
 
             <div id="perfil-info">
                 <h1 id="perfil-usuario"></h1>
                 <ul id="perfil-stats">
                     <li><strong id="perfil-num-publicaciones">0</strong> publicaciones</li>
-                    <li><strong id="perfil-num-seguidores">0</strong> seguidores</li>
-                    <li><strong id="perfil-num-seguidos">0</strong> seguidos</li>
+                    <li>
+                        <button id="abrirListaSeguidores" class="perfil-stat-boton" type="button" aria-label="Ver seguidores">
+                            <strong id="perfil-num-seguidores">0</strong> seguidores
+                        </button>
+                    </li>
+                    <li>
+                        <button id="abrirListaSeguidos" class="perfil-stat-boton" type="button" aria-label="Ver seguidos">
+                            <strong id="perfil-num-seguidos">0</strong> seguidos
+                        </button>
+                    </li>
                 </ul>
                 <p id="perfil-genero"></p>
                 <p id="perfil-bio"></p>
@@ -50,12 +53,31 @@
                 <div id="perfil-botones" hidden>
                     <button id="botonEditarPerfil" type="button" hidden>Editar perfil</button>
                     <button id="botonCambiarContrasena" type="button" hidden>Cambiar contraseña</button>
+                    <button id="botonSeguirPerfil" type="button" hidden>Seguir</button>
+                    <a id="botonLoginSeguir" class="perfil-enviar-mensaje" href="Login.html" hidden>
+                        Inicia sesión para seguir
+                    </a>
                     <a id="botonEnviarMensaje" class="perfil-enviar-mensaje" href="Mensajes.html" hidden>
                         Enviar mensaje
                     </a>
                 </div>
             </div>
         </div>
+
+        <section id="seccionPublicacionesPerfil" class="perfil-publicaciones" aria-labelledby="tituloPublicacionesPerfil" hidden>
+            <h2 id="tituloPublicacionesPerfil">Publicaciones</h2>
+            <p id="estadoPublicacionesPerfil" role="status" aria-live="polite">Cargando publicaciones...</p>
+            <div id="listaPublicacionesPerfil"></div>
+        </section>
+
+        <dialog id="modalRelacionesPerfil" class="modal-relaciones" aria-labelledby="tituloRelacionesPerfil">
+            <header class="modal-relaciones-encabezado">
+                <h2 id="tituloRelacionesPerfil">Seguidores</h2>
+                <button id="cerrarModalRelaciones" type="button" aria-label="Cerrar lista">×</button>
+            </header>
+            <p id="estadoRelacionesPerfil" role="status" aria-live="polite"></p>
+            <div id="listaRelacionesPerfil" class="lista-relaciones-perfil"></div>
+        </dialog>
 
         <section class="perfil-formulario" id="seccionEditarPerfil" hidden>
             <h2>Editar perfil</h2>
@@ -82,6 +104,13 @@
                     <button id="cancelarEdicionPerfil" type="button">Cancelar</button>
                 </div>
             </form>
+            <form id="formularioFotoPerfil" class="formulario-foto-perfil" hidden>
+                <h3>Cambiar foto de perfil</h3>
+                <label for="archivoFotoPerfil">Elige una nueva foto</label>
+                <input id="archivoFotoPerfil" name="foto" type="file" accept="image/png,image/jpeg,image/webp" required>
+                <button type="submit">Guardar foto</button>
+                <p id="estadoFotoPerfil" role="status" aria-live="polite"></p>
+            </form>
             <p id="estadoEdicionPerfil" role="status" aria-live="polite"></p>
         </section>
 
@@ -105,8 +134,10 @@
             <p id="estadoContrasenaPerfil" role="status" aria-live="polite"></p>
         </section>
     </main>
-    <script src="js/api.js"></script>
-    <script src="js/perfil.js"></script>
+    <script src="js/api.js?v=20261118-3"></script>
+    <script src="js/perfil-publicaciones.js?v=20261118-4"></script>
+    <script src="js/perfil.js?v=20261118-editar-foto"></script>
+    <script src="js/notificaciones.js"></script>
 </body>
 
 </html>
